@@ -40,7 +40,7 @@ def login1():
             return redirect(url_for('login.dashboard'))
       else:
             #flash('Credenciais inválidas. Tente novamente.', 'danger')
-            return redirect(url_for('home')) 
+            return redirect(url_for('login.home')) 
 
     return render_template("login.html")
 
