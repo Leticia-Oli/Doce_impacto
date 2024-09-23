@@ -2,21 +2,41 @@
 
 <html lang="pt-br">
 
-    <head>
+<head>
 
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, inicial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, inicial-scale=1.0">
 
-        <title>Página Inicial</title>
+    <title>Página Inicial</title>
 
-        <link rel="icon" href="{{url_for('static', filename='images/cupcake.png')}}" type="image/png">
+    <link rel="icon" href="{{url_for('static', filename='images/cupcake.png')}}" type="image/png">
 
-    </head>
+</head>
 
-    <body>
+<body>
 
-        <h1>Doce Impacto</h1>
-
-    </body>
-
+    <h1>Lista de Produtos</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Produto</th>
+            <th>Preço</th>
+            <th>Descrição</th>
+            <th>Categoria</th>
+            <th>Imagem</th>
+        </tr>
+        {% for produto in produtos %}
+        <tr>
+            <td>{{ produtos[0] }}</td>
+            <td>{{ produtos[1] }}</td>
+            <td>{{ produtos[2] }}</td>
+            <td>{{ produtos[3] }}</td>
+            <td>{{ produtos[4] }}</td>
+            <td>
+                <img src="data:image/jpeg;base64,{{ produto[5] }}" alt="Imagem" style="width: 100px; height: auto;">
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
 </html>

@@ -35,15 +35,16 @@ def login1():
       usuario = cursor.fetchone()
 
      # Verificando se o usuário existe
-      if usuario:
-            #flash('Login realizado com sucesso!', 'success')
-            return redirect(url_for('login.dashboard'))
+      if usuario.get('admin'):  # Supondo que admin é um campo booleano/int na tabela
+            return redirect(url_for('login.admin_cad'))  # Redireciona para página de admin
       else:
-            #flash('Credenciais inválidas. Tente novamente.', 'danger')
-            return redirect(url_for('login.home')) 
+            #flash('Login realizado com sucesso!', 'success')
+            return redirect(url_for('login.admin_cad'))
+    else:
+            return redirect(url_for('login.home'))  # Credenciais inválidas
 
     return render_template("login.html")
 
-@login_blueprint.route('/dashboard')
-def dashboard():
-    return "Bem-vindo ao Dashboard!"
+@login_blueprint.route('/admin_cad', methods=['GET'])
+def admin_cad():
+    return render_template('cadastroProduto.html')  # Página para cadastro de produtos

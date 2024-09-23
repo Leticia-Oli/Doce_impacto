@@ -24,7 +24,7 @@ def criar_usuario():
                 '{usuario['nome']}',
                 '{usuario['email']}',
                 '{usuario['senha']}',
-                {usuario['telefone']},
+                 {usuario['telefone']},
                 '{usuario['genero']}',
                 '{usuario['data_nasc']}',
                 '{usuario['curso_cargo']}',

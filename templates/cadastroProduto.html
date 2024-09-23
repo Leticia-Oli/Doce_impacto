@@ -1,0 +1,35 @@
+        <!DOCTYPE html>
+        <html lang="pt-br">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Cadastro de Produtos</title>
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="{{url_for('static', filename='styles/style-cadProduto.css')}}" type="text/css">
+            <link rel="icon" href="{{url_for('static', filename='images/cupcake.png')}}" type="image/png">
+        </head>
+        <body>
+            <h1>Cadastro de Produtos</h1>
+            <form action="{{url_for('cadastroProduto.adicionar_prod')}}" method="post" enctype="multipart/form-data">
+                <label for= "nome">Nome do Produto:</label><br>
+                <input type="text" id="produto" name="produto" required><br><br>
+        
+                <label for="preco">Preço:</label><br>
+                <input type="number" id="preco" name="preco" step="0.01" required><br><br>
+        
+                <label for="descricao">Descrição:</label><br>
+                <textarea id="descricao" name="descricao" rows="4" required></textarea><br><br>
+        
+                <label for="categoria">Categoria:</label><br>
+                <input type="text" id="categoria" name="categoria" required><br><br>
+        
+                <!-- Adicionando o upload de imagem -->
+                <label for="image">Selecione uma imagem:</label><br>
+                <input type="file" name="imagem" required><br><br>
+                <input type="submit" value="Cadastrar">
+            </form>
+        </body>
+        </html>
+        
