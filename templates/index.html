@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, inicial-scale=1.0">
+
+    <title>Página Inicial</title>
+
+    <link rel="icon" href="{{url_for('static', filename='images/cupcake.png')}}" type="image/png">
+
+</head>
+
+<body>
+
+    <h1>Lista de Produtos</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Produto</th>
+            <th>Preço</th>
+            <th>Descrição</th>
+            <th>Categoria</th>
+            <th>Imagem</th>
+        </tr>
+        {% for produto in produtos %}
+        <tr>
+            <td>{{ produto[0] }}</td>
+            <td>{{ produto[1] }}</td>
+            <td>{{ produto[2] }}</td>
+            <td>{{ produto[3] }}</td>
+            <td>{{ produto[4] }}</td>
+            <td>
+                <img src="data:image/jpeg;base64,{{ produto[5] }}" alt="Imagem" style="width: 100px; height: auto;">
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="6">Nenhum produto encontrado!!</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
