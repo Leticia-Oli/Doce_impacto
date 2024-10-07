@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho de Compras</title>
+</head>
+<body>
+    <h1>Seu Carrinho de Compras</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <table>
+        <tr>
+            <th>Produto</th>
+            <th>Preço</th>
+            <th>Imagem</th>
+        </tr>
+        {% for item in carrinho %}
+        <tr>
+            <td>{{ item['id'] }}</td>
+            <td>{{ item['nome'] }}</td>
+            <td>R$ {{ item['preco'] }}</td>
+            <td>
+                <img src="data:image/jpeg;base64,{{ item['imagem'] }}" alt="Imagem" style="width: 100px; height: auto;">
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="3">Seu carrinho está vazio!</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+     <h2>Total: R$ {{ total }}</h2>  
+
+    <a href="/checkout">Finalizar Compra</a>
+</body>
+</html>
+
