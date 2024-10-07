@@ -11,7 +11,18 @@
             <link rel="icon" href="{{url_for('static', filename='images/cupcake.png')}}" type="image/png">
         </head>
         <body>
+<<<<<<< HEAD
             <h1>Cadastro de Produtos</h1>
+=======
+            <div>
+            <h1>Cadastro de Produtos</h1>
+            <form action="{{url_for('cadastroProduto.listar_produto')}}" method="GET">
+                <input type="submit" value="Listar produtos">
+            </form>
+            </div>
+
+          <div>
+>>>>>>> 0274375 (cadastrar produto)
             <form action="{{url_for('cadastroProduto.adicionar_prod')}}" method="post" enctype="multipart/form-data">
                 <label for= "nome">Nome do Produto:</label><br>
                 <input type="text" id="produto" name="produto" required><br><br>
@@ -29,7 +40,13 @@
                 <label for="image">Selecione uma imagem:</label><br>
                 <input type="file" name="imagem" required><br><br>
                 <input type="submit" value="Cadastrar">
+<<<<<<< HEAD
             </form>
+=======
+
+            </form>
+        </div>
+>>>>>>> 0274375 (cadastrar produto)
         </body>
         </html>
         

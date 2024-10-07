@@ -27,15 +27,30 @@
         </tr>
         {% for produto in produtos %}
         <tr>
+<<<<<<< HEAD
             <td>{{ produtos[0] }}</td>
             <td>{{ produtos[1] }}</td>
             <td>{{ produtos[2] }}</td>
             <td>{{ produtos[3] }}</td>
             <td>{{ produtos[4] }}</td>
+=======
+            <td>{{ produto[0] }}</td>
+            <td>{{ produto[1] }}</td>
+            <td>{{ produto[2] }}</td>
+            <td>{{ produto[3] }}</td>
+            <td>{{ produto[4] }}</td>
+>>>>>>> 0274375 (cadastrar produto)
             <td>
                 <img src="data:image/jpeg;base64,{{ produto[5] }}" alt="Imagem" style="width: 100px; height: auto;">
             </td>
         </tr>
+<<<<<<< HEAD
+=======
+        {% else %}
+        <tr>
+            <td colspan="6">Nenhum produto encontrado!!</td>
+        </tr>
+>>>>>>> 0274375 (cadastrar produto)
         {% endfor %}
     </table>
 </body>
