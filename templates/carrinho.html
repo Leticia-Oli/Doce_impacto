@@ -21,28 +21,34 @@
     <table>
         <tr>
             <th>Produto</th>
-            <th>Preço</th>
+            <th>Quantidade</th>
+            <th>Preço Unitário</th>
+            <th>Preço Total</th>
             <th>Imagem</th>
         </tr>
         {% for item in carrinho %}
         <tr>
-            <td>{{ item['id'] }}</td>
             <td>{{ item['nome'] }}</td>
+            <td>{{ item['quantidade'] }}</td>
             <td>R$ {{ item['preco'] }}</td>
+            <td>R$ {{ item['quantidade'] * item['preco'] }}</td>
             <td>
                 <img src="data:image/jpeg;base64,{{ item['imagem'] }}" alt="Imagem" style="width: 100px; height: auto;">
             </td>
         </tr>
         {% else %}
         <tr>
-            <td colspan="3">Seu carrinho está vazio!</td>
+            <td colspan="5">Seu carrinho está vazio!</td>
         </tr>
         {% endfor %}
     </table>
 
-     <h2>Total: R$ {{ total }}</h2>  
+    <h2>Total: R$ {{ total }}</h2>  
+
+    <form action="{{ url_for('cadastroProduto.limpar_carrinho') }}" method="POST">
+      <button type="submit">Limpar Carrinho</button>
+    </form>
 
     <a href="/checkout">Finalizar Compra</a>
 </body>
 </html>
-

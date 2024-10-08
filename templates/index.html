@@ -57,5 +57,9 @@
         </tr>
         {% endfor %}
     </table>
+
+            <form action="{{url_for('cadastroProduto.ver_carrinho')}}" method="GET">
+                <input type="submit" value="Ver carrinho">
+            </form>
 </body>
 </html>
