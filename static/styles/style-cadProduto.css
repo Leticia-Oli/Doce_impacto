@@ -10,10 +10,11 @@
 
 /* Estilo do body */
 body {
-    background: #f0b3c5;
+    background: #F8C1D9;
     display: flex;
     justify-content: center;
     padding-top: 20px; /* Adiciona espaço no topo */
+    font-family: 'Arial', sans-serif; /* Fonte mais moderna */
     min-height: 100vh;
     flex-direction: column;
     align-items: center;
@@ -21,36 +22,38 @@ body {
 
 /* Estilo do título */
 h1 {
-    color: #4a4a4a;
-    font-size: 2.2rem;
-    margin-bottom: 20px;
     text-align: center;
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 30px;
+    font-family: 'Arial', sans-serif;
 }
 
 /* Estilo do formulário */
 form {
     background-color: #ffffff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 600px; /* Ajuste da largura máxima do formulário */
-    margin-bottom: 20px;
+    max-width: 800px; /* Ajuste da largura máxima do formulário */
+    margin-bottom: 40px;
+    margin: 50px auto;
     display: flex;
     flex-wrap: wrap; /* Permite que os itens se alinhem lado a lado */
-    gap: 15px; /* Espaçamento entre os campos */
+    gap: 20px; /* Espaçamento entre os campos */
 }
 form > div {
     display: flex;
     flex-direction: column;
-    flex: 1 1 calc(50% - 15px); /* Cada item ocupa 50% da largura, menos a margem */
+    flex: 1 1 calc(50% - 20px); /* Cada item ocupa 50% da largura, menos a margem */
 }
 
 /* Estilo dos labels */
 label {
     font-size: 1rem; /* Reduzido o tamanho da label */
     color: #333;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
 }
 
 /* Estilo dos inputs e textarea */
@@ -59,11 +62,11 @@ input[type="number"],
 input[type="file"],
 textarea {
     width: 100%;
-    padding: 8px; /* Reduzido o padding */
-    margin-bottom: 10px; /* Reduzido o espaçamento */
+    padding: 12px; 
+    margin-bottom: 15px; /* Reduzido o espaçamento */
     border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 0.9rem; /* Reduzido o tamanho do texto */
+    border-radius: 6px;
+    font-size: 16px; 
     outline: none;
     box-sizing: border-box;
 }
@@ -81,11 +84,12 @@ input[type="submit"] {
     background-color: #8d70ff;
     color: #fff;
     border: none;
-    padding: 10px; /* Reduzido o padding dos botões */
-    font-size: 0.9rem; /* Reduzido o tamanho do texto dos botões */
-    border-radius: 4px;
+    padding: 12px 20px; 
+    font-size: 1rem; 
+    border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 100%;
 }
 
 /* Efeito hover nos botões */
@@ -95,20 +99,20 @@ input[type="submit"]:hover {
 
 /* Estilo especial para o botão de listar produtos */
 input[type="submit"].listar {
-    background-color: #ffb74d;
+    background-color: #ff9800;
     position: absolute;
     top: 20px;
     right: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
     background-color: #8d70ff;
     color: #fff;
     border: none;
-    padding: 10px 20px;
-    font-size: 0.9rem;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 input[type="submit"].listar:hover {
-    background-color: #ff9800;
+    background-color: #ffb74d;
 }
