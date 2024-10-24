@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{url_for('static', filename='images/cupcake.png')}}" type="image/png">
+    
+    <title>Carrinho de Compras</title>
+
+    <style type="text/css">
+      #produtos {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #produtos td, #produtos th {
+            border: 1px solid #ddd;
+            padding: 5px;
+        }
+
+        #produtos tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #produtos tr:hover {
+            background-color: #ddd;
+        }
+
+        #produtos th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #04AA6D;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Seu Carrinho de Compras</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <table id="produtos">
+        <tr>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Preço Unitário</th>
+            <th>Preço Total</th>
+            <th>Imagem</th>
+        </tr>
+        {% for item in carrinho %}
+        <tr>
+            <td>{{ item['nome'] }}</td>
+            <td>{{ item['quantidade'] }}</td>
+            <td>R$ {{ item['preco'] }}</td>
+            <td>R$ {{ item['quantidade'] * item['preco'] }}</td>
+            <td>
+                <img src="data:image/jpeg;base64,{{ item['imagem'] }}" alt="Imagem" style="width: 100px; height: auto;">
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="5">Seu carrinho está vazio!</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Total: R$ {{ total }}</h2>  
+
+    <form action="{{ url_for('cadastroProduto.limpar_carrinho') }}" method="POST">
+      <button type="submit">Limpar Carrinho</button>
+    </form>
+
+    <a href="/checkout">Finalizar Compra</a>
+</body>
+</html>
