@@ -20,7 +20,7 @@ def adicionar_prod():
                 PRODUTO,
                 PRECO,
                 DESCRICAO,
-                CATEGORIA,
+                QUANTIDADE,
                 IMAGEM 
             )
             VALUES(
@@ -61,7 +61,7 @@ def listar_produto():
         imagem_b64 = base64.b64encode(prod[5]).decode('utf-8')  # Supondo que a imagem está no índice 5
         produtos_com_imagem.append((*prod[:5], imagem_b64))  # Adiciona a imagem codificada à tupla
 
-      return render_template('index.html', produtos=produtos_com_imagem)
+      return render_template('produto.html', produtos=produtos_com_imagem)
 
 # Adicionar item ao carrinho
 @cadastroProduto_blueprint.route('/add_to_cart/<int:produto_id>', methods=['POST'])

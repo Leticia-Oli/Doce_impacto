@@ -37,4 +37,4 @@ def criar_usuario():
         cur.execute(query)
         mysql.connection.commit()
 
-        return redirect(url_for('login.login'))
+        return redirect(url_for('login.login_page'))

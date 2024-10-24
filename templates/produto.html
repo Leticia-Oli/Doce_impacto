@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, inicial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/produto.css')}}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' type="text/css">
+    <title>Produtos | Doce Impacto</title>
+    <link rel="icon" href="{{url_for('static', filename='images/cupcake.png')}}" type="image/png">
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+     {% if messages %}
+      <div style="position: absolute;">
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+     {% endif %}
+    {% endwith %}
+
+    <div class = "produtos">
+        <div class = "container">
+            <h1 class = "lg-title">Nossos produtos deliciosos</h1>
+            <p class = "text-light">Explore nosso código de sabores! Cada produto é compilado com ingredientes de alta performance para satisfazer seu paladar em um loop de prazer. Prepare-se para uma sobremesa que vai fazer o seu sistema dar um refresh em cada mordida. Não deixe o erro 404 aparecer no seu carrinho: adicione agora e experimente a doçura que foi feita para você!</p>
+
+            <div class = "produto-items">
+                <!-- produto 1 -->
+                {% for produto in produtos %}
+                <div class = "produto">
+                    <div class = "produto-content">
+                        <div class = "produto-img">
+                            <img src = "data:image/jpeg;base64,{{produto[5]}}" alt = "Doce" class="imagem-doce">
+                        </div>
+                    </div>
+
+                    <div class = "produto-info">
+                        <div class = "produto-btne">
+                            <form action="{{ url_for('cadastroProduto.add_to_cart', produto_id=produto[0]) }}" method="POST">
+                                <button type = "submit" class = "btn-cart" onclick="enviarAoCarrinho({{produto[0]}}, {{produto[2]}})"> adicione ao carrinho
+                                    <span><i class='bx bxs-cart'></i></span>
+                                </button>
+                            </form>
+                        </div>
+                        <div class = "produto-info-top">
+                            <h2 class = "sm-title">{{produto[1]}}</h2>
+                            <div class = "avaliacao">
+                                <span><i class='bx bxs-star'></i></span>
+                                <span><i class='bx bxs-star'></i></span>
+                                <span><i class='bx bxs-star'></i></span>
+                                <span><i class='bx bxs-star'></i></span>
+                                <span><i class='bx bxs-star'></i></span>
+                            </div>
+                        </div>
+                        <a href = "#" class = "produto-descricao">{{produto[3]}}</a>
+                        <p class = "produto-preco">R$ {{produto[2]}}</p><br>
+                        <p class = "produto-preco">Estoque: {{produto[4]}}</p>
+                    </div>
+                </div>
+                <!-- fim produto 1 -->
+                {% endfor %}
+            </div>
+
+            <div class="carrinho-no-canto">
+                <form action="{{url_for('cadastroProduto.ver_carrinho')}}" method="GET">
+                    <button type="submit">
+                        <p>Carrinho:</p>
+                        <img src="{{url_for('static', filename='images/carrinho.png')}}">
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+
+    function retirarQtde(id, preco) {
+            const inputQtd = document.getElementById("qtd" + id);
+
+            var qtd = parseInt(inputQtd.value);
+
+            if(qtd > 0) {
+                qtd -= 1;
+                inputQtd.value = qtd;
+            }
+        }
+
+        function adicionarQtde(id, maxQtde, preco) {
+            const inputQtd = document.getElementById("qtd" + id);
+            var qtd = parseInt(inputQtd.value);
+
+            if(qtd < maxQtde) {
+                qtd += 1;
+                inputQtd.value = qtd;
+            }
+        }
+
+</script>
