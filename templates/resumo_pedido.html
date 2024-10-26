@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo do Pedido</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='styles/resumo_pedido.css')}}" type="text/css">
+    <link rel="icon" href="{{url_for('static', filename='images/cupcake.png')}}" type="image/png">
+</head>
+<body>
+    <h1>Resumo do Pedido</h1>
+
+    <table id="resumo">
+        <tr>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Preço Unitário</th>
+            <th>Preço Total</th>
+        </tr>
+        {% for item in carrinho %}
+        <tr>
+            <td>{{ item['nome'] }}</td>
+            <td>{{ item['quantidade'] }}</td>
+            <td>R$ {{ item['preco'] }}</td>
+            <td>R$ {{ item['quantidade'] * item['preco'] }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="3" class="total">Total:</td>
+            <td class="total">R$ {{ total }}</td>
+        </tr>
+    </table>
+
+    <h2>Formas de Pagamento</h2>
+    <form action="{{ url_for('cadastroProduto.finalizar_compra') }}" method="POST">
+        <label>
+            <input type="radio" name="pagamento" value="cartao" required> Cartão de Crédito
+        </label><br>
+        <label>
+            <input type="radio" name="pagamento" value="boleto"> Boleto Bancário
+        </label><br>
+        <label>
+            <input type="radio" name="pagamento" value="pix"> PIX
+        </label><br><br>
+        
+        <button type="submit" class="button">Confirmar Compra</button>
+    </form>
+
+    <form action="{{ url_for('cadastroProduto.ver_carrinho') }}" method="GET">
+        <button type="submit" class="button">Voltar ao Carrinho</button>
+    </form>
+</body>
+</html>

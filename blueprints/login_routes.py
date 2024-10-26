@@ -55,3 +55,5 @@ def login1():
 @login_blueprint.route('/admin_cad', methods=['GET'])
 def admin_cad():
     return render_template('cadastroProduto.html')  # Página para cadastro de produtos
+
+

@@ -52,3 +52,21 @@ CREATE TABLE IF NOT EXISTS PEDIDO(
 
     PRIMARY KEY(ID_PEDIDO)
 );
+
+CREATE TABLE IF NOT EXISTS PEDIDOS (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    order_date DATETIME NOT NULL,
+    total DECIMAL(10, 2),
+    FOREIGN KEY (usuario_id) REFERENCES USUARIOS(id)
+);
+
+CREATE TABLE IF NOT EXISTS PEDIDOS_ITEMS (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pedido_id INT NOT NULL,
+    produto_id INT NOT NULL,
+    quantidade INT NOT NULL,
+    preco DECIMAL(10, 2),  -- preço do produto no momento da compra
+    FOREIGN KEY (pedido_id) REFERENCES PEDIDOS(id),
+    FOREIGN KEY (produto_id) REFERENCES CAD_PRODUTO(id)
+);

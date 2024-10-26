@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{url_for('static', filename='images/cupcake.png')}}" type="image/png">
     
+    
     <title>Carrinho de Compras</title>
 
     <style type="text/css">
@@ -80,6 +81,14 @@
       <button type="submit">Limpar Carrinho</button>
     </form>
 
-    <a href="/checkout">Finalizar Compra</a>
+      <form action="{{ url_for('cadastroProduto.resumo_pedido') }}" method="GET">
+        <button type="submit">Finalizar Comprar</button>
+      </form>
+
+      <form action="{{ url_for('cadastroProduto.listar_produto')}}" method="GET">
+        <button type="submit">Voltar</button>
+      </form>
+
+    
 </body>
 </html>
