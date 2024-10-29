@@ -32,7 +32,7 @@
             padding-top: 12px;
             padding-bottom: 12px;
             text-align: left;
-            background-color: #04AA6D;
+            background-color: #f0b3c5;
             color: white;
         }
     </style>
@@ -81,13 +81,16 @@
       <button type="submit">Limpar Carrinho</button>
     </form>
 
-      <form action="{{ url_for('cadastroProduto.resumo_pedido') }}" method="GET">
+      <form action="{{ url_for('pedidos.resumo_pedido') }}" method="GET">
         <button type="submit">Finalizar Comprar</button>
       </form>
 
       <form action="{{ url_for('cadastroProduto.listar_produto')}}" method="GET">
         <button type="submit">Voltar</button>
       </form>
+      <form action="{{ url_for('pedidos.listar_pedidos')}}" method="GET">
+        <button type="submit">Pedidos</button>
+        </form>
 
     
 </body>

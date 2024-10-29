@@ -32,7 +32,7 @@
     </table>
 
     <h2>Formas de Pagamento</h2>
-    <form action="{{ url_for('cadastroProduto.finalizar_compra') }}" method="POST">
+    <form action="{{ url_for('pedidos.finalizar_compra') }}" method="POST">
         <label>
             <input type="radio" name="pagamento" value="cartao" required> Cartão de Crédito
         </label><br>
