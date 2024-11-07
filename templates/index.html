@@ -1,66 +1,53 @@
 <!DOCTYPE html>
-
-<html lang="pt-br">
-
-<head>
-
+    <html lang="pt-BR">
+    <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Página Inicial</title>
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/produto.css')}}">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' type="text/css">
-    <link rel="icon" href="{{url_for('static', filename='images/cupcake.png')}}" type="image/png">
-
-</head>
-
-<body>
-
-    {% with messages = get_flashed_messages() %}
-     {% if messages %}
-      <div>
-        {% for message in messages %}
-          <p>{{ message }}</p>
-        {% endfor %}
-      </div>
-     {% endif %}
-    {% endwith %}
-
-    <h1>Lista de Produtos</h1>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Produto</th>
-            <th>Preço</th>
-            <th>Descrição</th>
-            <th>Categoria</th>
-            <th>Imagem</th>
-        </tr>
-        {% for produto in produtos %}
-        <tr>
-            <td>{{ produto[0] }}</td>
-            <td>{{ produto[1] }}</td>
-            <td>{{ produto[2] }}</td>
-            <td>{{ produto[3] }}</td>
-            <td>{{ produto[4] }}</td>
-            <td>
-                <img src="data:image/jpeg;base64,{{ produto[5] }}" alt="Imagem" style="width: 100px; height: auto;">
-            </td>
-            <td>
-                <form action="{{ url_for('cadastroProduto.add_to_cart', produto_id=produto[0]) }}" method="POST">
-                    <button type="submit">Comprar</button>
-                </form>
-            </td>
-        </tr>
-        {% else %}
-        <tr>
-            <td colspan="7">Nenhum produto encontrado!!</td>
-        </tr>
-        {% endfor %}
-    </table>
-
-            <form action="{{url_for('cadastroProduto.ver_carrinho')}}" method="GET">
-                <input type="submit" value="Ver carrinho">
-            </form>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/barra_navegar.css')}}">
+    {% block head %}{% endblock %}  
+    </head>
+    <body>
+        <header>
+        <!-- Barra de Navegação -->
+        <nav class="navbar">
+            <div class="logo">Doce Impacto</div>
+            <div class="menu">
+                <a href="{{ url_for('cadastroProduto.listar_produto')}}">Produtos</a>
+                <a href="{{ url_for('login.quemsomos') }}">Quem Somos</a> 
+                <a href="{{ url_for('login.home') }}">Contato</a>
+                <a href="{{ url_for('cadastroProduto.ver_carrinho') }}"><img src="{{url_for('static', filename='images/carrinho.png')}}"alt="Carro"> Carrinho</a>
+    
+                {% if session.get('usuario_logado') %}
+                    <a href="{{ url_for('pedidos.resumo_pedido') }}">Minha Conta</a>
+                {% else %}
+                    <a href="{{ url_for('login.login1') }}">Login</a>
+                {% endif %}
+                
+                <a href="{{ url_for('login.home') }}"><img src="{{url_for('static', filename='images/lupa.png')}}" alt="Buscar"></a>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        {% block content %}{% endblock %}
+    </main>
 </body>
 </html>
+
+<script>
+    let lastScroll = 0;
+    const navbar = document.querySelector('.navbar'); // Substitua '.navbar' pelo seletor da sua barra de navegação
+
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        if (currentScroll > lastScroll) {
+            // Scroll para baixo - esconde a barra
+            navbar.classList.add('navbar-hidden');
+        } else {
+            // Scroll para cima - mostra a barra
+            navbar.classList.remove('navbar-hidden');
+        }
+        lastScroll = currentScroll;
+    });
+</script>

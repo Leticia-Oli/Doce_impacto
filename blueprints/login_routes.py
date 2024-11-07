@@ -41,19 +41,21 @@ def login1():
      # Verificando se o usuário existe
       if usuario:
         session['usuario_id'] = usuario ['ID']
-        if usuario['TIPO'] == 0:  # Supondo que admin é um campo booleano/int na tabela
+        session['usuario_logado'] = True
+        if usuario['TIPO'] == 0:  
                 return redirect(url_for('login.admin_cad'))  # Redireciona para página de admin
         else:
             flash('Login realizado com sucesso!', 'success')
             return redirect(url_for('cadastroProduto.listar_produto'))
       else:
         flash('Credenciais inválidas. Tente novamente.', 'danger')
-        return redirect(url_for('login.home'))  # Credenciais inválidas
+        return redirect(url_for('login.home'))  
 
-        return redirect(url_for('login.login_page'))
 
 @login_blueprint.route('/admin_cad', methods=['GET'])
 def admin_cad():
-    return render_template('cadastroProduto.html')  # Página para cadastro de produtos
+    return render_template('cadastroProduto.html')  
 
-
+@login_blueprint.route('/quemsomos', methods=['GET'])
+def quemsomos():
+    return render_template('QuemSomos.html') 

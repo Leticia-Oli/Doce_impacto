@@ -1,79 +1,217 @@
-body {
-    font-family: "Nerko One", sans-serif;
-    background-color: #f0b3c5;
+/* Reset de Estilos Básicos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.box {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    background-color: rgba(236, 101, 158, 0.4);
+/* Fonte padrão */
+body {
+    font-family: "Nerko One", sans-serif;
+    background-color:  #f5f0ea;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilo do Formulário de Cadastro */
+.box { 
+    background-color: d9b7a7;
     padding: 15px;
     border-radius: 15px;
-    width: 40%;
+    width: 70%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 fieldset {
-    border: 3px solid white;
+    border: none;
 }
 
 legend {
-    border: 1px solid white;
-    padding: 10px;
+    font-size: 24px;
+    color: #ffffff;
+    background-color: #b67b6a;
+    padding: 10px 20px;
+    border-radius: 20px;
     text-align: center;
-    background-color: white ;
-    border-radius: 8px;
-    color: #000;
+    margin-bottom: 20px;
 }
 
 input, label {
     cursor: pointer;
+    position: relative;
 }
 
 .inputBox {
     position: relative;
+    margin-bottom: 10px;
 }
 
 .inputUser {
-    background: none;
+    background-color: #b67b6a;
     border: none;
-    border-bottom: 1px solid white;
+    border-radius: 10px;
     outline: none;
-    color: white;
-    font-size: 15px;
+    color: #ffffff;
+    font-size: 16px;
     width: 100%;
+    padding: 10px;
 }
 
 .label-input {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    left: 15px;
+    color: #0f0f0f;
+    font-size: 20px;
+    transition: 0.3s ease;
     pointer-events: none;
-    transition: .5s;
 }
 
 .inputUser:focus ~ .label-input,
 .inputUser:valid ~ .label-input {
-    top: -20px;
-    font-size: 12px;
+    top: -25px;
+    font-size: 20px;
+    color: #4a1f0f;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #b67b6a;
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+}
+
+select:focus {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 #data_nasc {
     border: none;
-    padding: 8px;
-    border-radius: 10px;
+    padding: 10px;
+    border-radius: 20px;
     outline: none;
-    font-size: 15px;
+    font-size: 20px;
+    width: 100%;
+    background-color: #b67b6a;
+    color: #ffffff;
 }
 
 #submit {
-    background-image: linear-gradient(to right,rgb(219, 121, 190), rgb(218, 62, 210));
+    background-image: linear-gradient(to right, rgb(219, 133, 121), rgb(218, 62, 210));
     width: 100%;
     border: none;
     padding: 15px;
     color: white;
-    font-size: 15px;
+    font-size: 16px;
     cursor: pointer;
     border-radius: 10px;
+    font-weight: bold;
+    transition: background 0.3s ease;
 }
+#submit:hover {
+    background-image: linear-gradient(to right, rgb(218, 62, 210), rgb(219, 121, 190));
+}
+
+/* Estilos principais da página "Quem Somos" */
+main {
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.about-us h1 {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #f8b400;
+}
+
+.about-us h2 {
+    font-size: 28px;
+    margin-top: 30px;
+    color: #333;
+    border-bottom: 2px solid #f8b400;
+    padding-bottom: 5px;
+    width: 150px;
+}
+
+.about-us p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+.team {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.team-member {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    margin: 20px;
+    padding: 20px;
+    text-align: center;
+}
+
+.team-member img {
+    width: 100%;
+    border-radius: 10px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.team-member h3 {
+    font-size: 22px;
+    margin: 15px 0 5px;
+}
+
+.team-member p {
+    font-size: 16px;
+    color: #555;
+}
+
+.about-us ul {
+    list-style-type: none;
+    margin-top: 30px;
+}
+
+.about-us ul li {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.about-us ul li a {
+    color: #f8b400;
+    text-decoration: none;
+}
+
+.about-us ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Rodapé */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 15px;
+    margin-top: 50px;
+}
+
+footer p {
+    font-size: 16px;
+}
+

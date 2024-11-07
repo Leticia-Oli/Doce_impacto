@@ -9,7 +9,7 @@ def usuario_logado():
     usuario_id = session.get('usuario_id')  # Exemplo de como pegar o ID do usuário logado
     
     if not usuario_id:
-        flash('Você precisa estar logado para adicionar ao carrinho.')
+        flash('Você precisa estar logado!')
         return None
     return usuario_id
 

@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, inicial-scale=1.0">
-
+    
+{% block head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, inicial-scale=1.0">   
     <link rel="stylesheet" href="{{url_for('static', filename='styles/produto.css')}}" type="text/css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' type="text/css">
-    <title>Produtos | Doce Impacto</title>
     <link rel="icon" href="{{url_for('static', filename='images/cupcake.png')}}" type="image/png">
-</head>
+    <title> Produtos | Doce Impacto </title>
+{% endblock %}
+{% extends 'index.html' %}
+
 <body>
+{% block content %}
     {% with messages = get_flashed_messages() %}
      {% if messages %}
       <div style="position: absolute;">
@@ -62,16 +65,17 @@
                 {% endfor %}
             </div>
 
-            <div class="carrinho-no-canto">
+           <!-- <div class="carrinho-no-canto">
                 <form action="{{url_for('cadastroProduto.ver_carrinho')}}" method="GET">
                     <button type="submit">
                         <p>Carrinho:</p>
                         <img src="{{url_for('static', filename='images/carrinho.png')}}">
                     </button>
                 </form>
-            </div>
+                </div> -->
         </div>
     </div>
+{% endblock %} 
 </body>
 </html>
 

@@ -19,7 +19,6 @@
     </head>
 
     <body>
-
         <div class="box">
 
             <form action="{{url_for('cadastro.criar_usuario')}}" method="POST">
@@ -53,43 +52,61 @@
                     </div>
                     <br>
 
-                    <p>Sexo:</p>
-                    <input type="radio" id="feminino" name="genero" value="F">
-                    <label for="feminino">Feminino</label>
-                    <br>
-
-                    <input type="radio" id="masculino" name="genero" value="M">
-                    <label for="masculino">Masculino</label>
-                    <br>
-
-                    <input type="radio" id="outro" name="genero" value="O">
-                    <label for="outro">Outro</label>
-                    <br></br>
-
-                    <label for="data_nasc"><b>Data de Nascimento</b></label>
-                    <input type="date" name="data_nasc" id="data_nasc">
-                    <br></br>
+                    <div class="inputBox">
+                        <label for="genero" class="label-input">Sexo</label><br>
+                        <select name="genero" id="genero" required>
+                            <option value="">Selecione</option>
+                            <option value="F">Feminino</option>
+                            <option value="M">Masculino</option>
+                            <option value="Ou">Outro</option>
+                        </select>
+                    </div>
+                    <br><br>
 
                     <div class="inputBox">
-                        <input type="text" name="curso_cargo" id="curso_cargo" class="inputUser">
-                        <label for="curso_cargo" class="label-input">Curso ou Cargo</label>
+                        <label for="curso_cargo" class="label-input">Curso</label><br>
+                        <select name="curso_cargo" id="curso_cargo" required>
+                            <option value="">Selecione</option>
+                            <option value="ADS">Análise e Desenvolvimento de Sistemas</option>
+                            <option value="CC">Ciência da Computação</option>
+                            <option value="ADM">Administração</option>
+                            <option value="SI">Sistema da Informação</option>
+                            <option value="BD">Banco de Dados</option>
+                            <option value="COLAB">Colaborador(a)</option>
+                        </select>
                     </div>
-                    <br></br>
+                    <br><br>
 
                     <div class="inputBox">
-                        <input type="text" name="turno" id="turno" class="inputUser">
-                        <label for="turno" class="label-input">Turno</label> 
+                        <label for="turno" class="label-input">Turno</label><br>
+                        <select name="turno" id="turno" required>
+                            <option value="">Selecione</option>
+                            <option value="Manhã">Manhã</option>
+                            <option value="Tarde">Tarde</option>
+                            <option value="Noite">Noite</option>
+                        </select>
                     </div>
-                    <br></br>
+                    <br><br>
+
+                    <label for="data_nasc">Data de Nascimento</label><br>
+                    <input type="date" name="data_nasc" id="data_nasc" required>
+                    <br><br>
 
                     <input type="submit" name="submit" id="submit">
 
                 </fieldset>
-
             </form>
-
         </div>
-
     </body>
 
 </html>
+
+<script>
+    document.getElementById('telefone').addEventListener('input', function (e) {
+        let telefone = e.target.value.replace(/\D/g, ""); 
+        telefone = telefone.replace(/^(\d{2})(\d)/g, "($1)$2"); 
+        telefone = telefone.replace(/(\d{5})(\d)/, "$1-$2"); 
+        e.target.value = telefone.substring(0, 14); 
+    });
+    </script>
+    
