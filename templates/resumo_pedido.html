@@ -1,16 +1,38 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
+{% extends 'index.html' %}
+
+    {% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resumo do Pedido</title>
     <link rel="stylesheet" href="{{url_for('static', filename='styles/resumo_pedido.css')}}" type="text/css">
     <link rel="icon" href="{{url_for('static', filename='images/cupcake.png')}}" type="image/png">
-</head>
+    {% endblock %}
 <body>
+    <main>
+    {% block content %}
     <h1>Resumo do Pedido</h1>
 
-    <table id="resumo">
+    <div class="container">
+        <!-- Forma de Pagamento -->
+        <div class="forma-pagamento">
+            <h2>Forma de Pagamento</h2>
+            <form action="{{ url_for('pedidos.finalizar_compra') }}" method="POST">
+                <label>
+                    <input type="radio" name="pagamento" value="pix" required> PIX
+                </label>
+                <label>
+                    <input type="radio" name="pagamento" value="cartao"> Cartão de Crédito
+                </label>
+                <label>
+                    <input type="radio" name="pagamento" value="boleto"> Boleto
+                </label>
+                <button type="submit" class="button-finalizar">Finalizar Compra</button>
+            </form>
+        </div>
+    
+        <div class="detalhes-pedido">
+        <h2>Detalhes do Pedido</h2>
+        <table class="tabels-produtos">
         <tr>
             <th>Produto</th>
             <th>Quantidade</th>
@@ -31,23 +53,10 @@
         </tr>
     </table>
 
-    <h2>Formas de Pagamento</h2>
-    <form action="{{ url_for('pedidos.finalizar_compra') }}" method="POST">
-        <label>
-            <input type="radio" name="pagamento" value="cartao" required> Cartão de Crédito
-        </label><br>
-        <label>
-            <input type="radio" name="pagamento" value="boleto"> Boleto Bancário
-        </label><br>
-        <label>
-            <input type="radio" name="pagamento" value="pix"> PIX
-        </label><br><br>
-        
-        <button type="submit" class="button">Confirmar Compra</button>
-    </form>
-
     <form action="{{ url_for('cadastroProduto.ver_carrinho') }}" method="GET">
-        <button type="submit" class="button">Voltar ao Carrinho</button>
+        <button type="submit" class="button-voltar">Voltar ao Carrinho</button>
     </form>
+    {% endblock %} 
+</main>
 </body>
 </html>

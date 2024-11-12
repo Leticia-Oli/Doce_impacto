@@ -1,18 +1,18 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+{% extends 'index.html' %}
+
+{% block title %}Carinho de Compras | Doce Impacto{% endblock %}
+
+{% block content %}
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{url_for('static', filename='styles/style-carrinho.css')}}" type="text/css">
-    <link rel="icon" href="{{url_for('static', filename='images/cupcake.png')}}" type="image/png">
-    {% extends 'index.html' %}   
-    {% block title %}Carinho de Compras | Doce Impacto{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style-carrinho.css') }}" type="text/css">
+    <link rel="icon" href="{{ url_for('static', filename='images/cupcake.png') }}" type="image/png">
 </head>
 <body>
 
-  {% block content %}
     <h1>Seu Carrinho de Compras</h1>
-
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         <ul>
@@ -23,7 +23,17 @@
       {% endif %}
     {% endwith %}
 
-    <table id="produtos">
+    <div class="container-carrinho">
+      <div class="progress-bar">
+          <div class="step active">1 Carrinho</div>
+          <div class="step">2 Identificação</div>
+          <div class="step">3 Pagamento</div>
+          <div class="step">4 Finalizar Pedido</div>
+      </div>
+
+      <h2 class="title-carrinho">Carrinho de compras</h2>
+
+      <table class="produtos">
         <tr>
             <th>Produto</th>
             <th>Quantidade</th>
@@ -34,36 +44,67 @@
         {% for item in carrinho %}
         <tr>
             <td>{{ item['nome'] }}</td>
-            <td>{{ item['quantidade'] }}</td>
-            <td>R$ {{ item['preco'] }}</td>
-            <td>R$ {{ item['quantidade'] * item['preco'] }}</td>
-            <td>
-                <img src="data:image/jpeg;base64,{{ item['imagem'] }}" alt="Imagem" style="width: 100px; height: auto;">
+            <td class="quantidade">
+              <button onclick="atualizarQuantidade({{ item['id'] }}, {{ item['quantidade'] - 1 }})"> - </button>
+              <span id="quantidade-{{ item['id'] }}">{{ item['quantidade'] }}</span>
+              <button onclick="atualizarQuantidade({{ item['id'] }}, {{ item['quantidade'] + 1 }})"> + </button>
             </td>
+            <td>R$ {{ item['preco'] }}</td>
+            <td id="item-total-{{ item['id'] }}">R$ {{ item['quantidade'] * item['preco'] }}</td>
+            <td><img src="data:image/jpeg;base64,{{ item['imagem'] }}" alt="Imagem" style="width: 100px; height: auto;"></td>
         </tr>
         {% else %}
         <tr>
             <td colspan="5">Seu carrinho está vazio!</td>
         </tr>
         {% endfor %}
-    </table>
+      </table>
 
-    <h2>Total: R$ {{ total }}</h2>  
+      <div class="totais">
+        <h2>Total: <span id="total-geral">R$ {{ total }}</span></h2>
+      </div>
 
-    <form action="{{ url_for('cadastroProduto.limpar_carrinho') }}" method="POST">
-      <button type="submit">Limpar Carrinho</button>
-    </form>
-
-      <form action="{{ url_for('pedidos.resumo_pedido') }}" method="GET">
-        <button type="submit">Finalizar Comprar</button>
-      </form>
-
-      <form action="{{ url_for('cadastroProduto.listar_produto')}}" method="GET">
-        <button type="submit">Voltar</button>
-      </form>
-      <form action="{{ url_for('pedidos.listar_pedidos')}}" method="GET">
-        <button type="submit">Pedidos</button>
+      <div class="botoes">
+        <form action="{{ url_for('pedidos.resumo_pedido') }}" method="GET">
+          <button type="submit">Finalizar Comprar</button>
         </form>
-  {% endblock %}    
+
+        <form action="{{ url_for('cadastroProduto.listar_produto')}}" method="GET">
+          <button type="submit">Continuar Comprando</button>
+        </form>
+        <form action="{{ url_for('cadastroProduto.limpar_carrinho') }}" method="POST">
+          <button type="submit">Limpar Carrinho</button>
+        </form>
+      </div>
+    </div>
+
+<script>
+  function atualizarQuantidade(itemId, novaQuantidade) {
+    console.log("Atualizando quantidade do item:", itemId, "Nova quantidade:", novaQuantidade);  
+    fetch("{{ url_for('cadastroProduto.atualizar_quantidade') }}", {
+      method: 'POST',
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              item_id: itemId,
+              nova_quantidade: novaQuantidade
+          })
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.error) {
+              alert(data.error);
+          } else {
+              document.querySelector(`#item-total-${itemId}`).textContent = `R$ ${data.item_total.toFixed(2)}`;
+              document.querySelector('#total-geral').textContent = `R$ ${data.total_geral.toFixed(2)}`;
+          }
+      })
+      .catch(error => console.error('Erro:', error));
+  }
+</script>
+
 </body>
 </html>
+{% endblock %}

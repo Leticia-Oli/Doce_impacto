@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-    
+   
 {% block head %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, inicial-scale=1.0">   
@@ -12,10 +10,11 @@
 {% extends 'index.html' %}
 
 <body>
+    <main>
 {% block content %}
     {% with messages = get_flashed_messages() %}
      {% if messages %}
-      <div style="position: absolute;">
+      <div id="flash-message" class="flash-bottom">
         {% for message in messages %}
           <p>{{ message }}</p>
         {% endfor %}
@@ -76,6 +75,7 @@
         </div>
     </div>
 {% endblock %} 
+</main>
 </body>
 </html>
 
@@ -101,5 +101,15 @@
                 inputQtd.value = qtd;
             }
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+        const flashMessage = document.getElementById('flash-message');
+        if (flashMessage) {
+            flashMessage.classList.add('show'); // Exibe a mensagem
+            setTimeout(() => {
+                flashMessage.classList.remove('show'); // Oculta a mensagem após 3 segundos
+            }, 3000);
+        }
+    });
 
 </script>

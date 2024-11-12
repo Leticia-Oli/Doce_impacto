@@ -45,7 +45,6 @@ def login1():
         if usuario['TIPO'] == 0:  
                 return redirect(url_for('login.admin_cad'))  # Redireciona para página de admin
         else:
-            flash('Login realizado com sucesso!', 'success')
             return redirect(url_for('cadastroProduto.listar_produto'))
       else:
         flash('Credenciais inválidas. Tente novamente.', 'danger')

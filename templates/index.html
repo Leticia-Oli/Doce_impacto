@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-    <html lang="pt-BR">
-    <head>
+<html lang="pt-BR">
     
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Doce Impacto{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/barra_navegar.css')}}">
     {% block head %}{% endblock %}  
     </head>
+
     <body>
         <header>
-        <!-- Barra de Navegação -->
         <nav class="navbar">
             <div class="logo">Doce Impacto</div>
             <div class="menu">
@@ -33,6 +34,9 @@
         {% block content %}{% endblock %}
     </main>
 </body>
+<footer>
+    <p>&copy; 2024 Doce Impacto. Todos os direitos reservados.</p>
+</footer>
 </html>
 
 <script>

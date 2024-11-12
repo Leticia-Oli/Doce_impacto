@@ -1,26 +1,148 @@
-#produtos {
-            font-family: Arial, Helvetica, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
+/* Estilo geral do contêiner */
+.container-carrinho {
+    border: 2px solid #D3C0E8;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #FAF3F5;
+    max-width: 800px;
+    margin: 0 auto;
+    /*font-family: 'SuaFonteEscolhida', sans-serif; */
+}
 
-        #produtos td, #produtos th {
-            border: 1px solid #ddd;
-            padding: 5px;
-        }
+/* Barra de progresso */
+.progress-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
 
-        #produtos tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+.progress-bar .step {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #D09F9F;
+    color: #FFF;
+    border-radius: 50px;
+    font-weight: bold;
+}
 
-        #produtos tr:hover {
-            background-color: #ddd;
-        }
+.progress-bar .step.active {
+    background-color: #A45B5B;
+}
 
-        #produtos th {
-            padding-top: 12px;
-            padding-bottom: 12px;
-            text-align: left;
-            background-color: #f0b3c5;
-            color: white;
-        }
+/* Título do carrinho */
+.title-carrinho {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #804D4D;
+}
+
+/* Tabela de produtos */
+.produtos {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.produtos td {
+    padding: 10px;
+    vertical-align: middle;
+    color: #555;
+}
+
+.produtos .produto-img {
+    width: 50px;
+    height: 50px;
+}
+
+.produtos .produto-nome {
+    font-weight: bold;
+    color: #804D4D;
+}
+
+.produtos .produto-preco,
+.produtos .produto-total {
+    color: #804D4D;
+}
+
+.produtos .quantidade {
+    display: flex;
+    align-items: center;
+}
+
+.produtos .quantidade button {
+    background-color: #A45B5B;
+    color: white;
+    border: none;
+    width: 25px;
+    height: 25px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 5px;
+}
+
+.produtos .quantidade input {
+    width: 40px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+/* Subtotal e total */
+.totais {
+    text-align: right;
+    color: #555;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.totais .valor {
+    font-size: 1.2em;
+}
+
+/* Botões */
+.botoes {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.botoes button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+}
+
+.botoes .btn-continuar {
+    background-color: #D09F9F;
+}
+
+.botoes .btn-finalizar {
+    background-color: #A45B5B;
+}
+
+.quantidade button {
+    background-color: #D09F9F;
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 5px;
+    font-weight: bold;
+}
+
+.quantidade button:hover {
+    background-color: #A45B5B;
+}
+
+form {
+    display: inline-block;
+    margin: 0 5px;
+}

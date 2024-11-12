@@ -12,7 +12,7 @@
     box-sizing: border-box;
 }
 body{
-    font-family: Ferdoka;
+    font-family: Fredoka;
 }
 
 .imagem-doce {
@@ -273,4 +273,28 @@ img{
 .escolha-qtd button:active {
     background-color: #215b5b;
     border-color: #215b5b;
+}
+
+/* Estilos para a mensagem de flash */
+.flash-bottom {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f8d7da; /* Cor de fundo (ajuste para combinar com seu tema) */
+    color: #721c24; /* Cor do texto */
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+/* Quando a classe 'show' é adicionada */
+.flash-bottom.show {
+    opacity: 1;
+    visibility: visible;
 }

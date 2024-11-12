@@ -153,3 +153,40 @@ def limpar_carrinho():
 
     flash('Carrinho limpo com sucesso!')  # Mensagem de sucesso
     return redirect(url_for('cadastroProduto.ver_carrinho'))  # Redireciona para a página do carrinho
+
+@cadastroProduto_blueprint.route('/atualizar_quantidade', methods=['POST'])
+def atualizar_quantidade():
+    item_id = request.json.get('item_id')
+    nova_quantidade = request.json.get('nova_quantidade')
+
+    # Verifica se a quantidade é maior que zero
+    if nova_quantidade <= 0:
+        return jsonify({'error': 'Quantidade inválida'}), 400
+    
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT quantidade, preco FROM CARRINHO JOIN CAD_PRODUTO ON CARRINHO.produto_id = CAD_PRODUTO.ID WHERE CARRINHO.id = %s", (item_id,))
+    item = cur.fetchone()
+
+    if item:
+        # Atualize a quantidade no banco de dados
+        cur.execute("UPDATE CARRINHO SET quantidade = %s WHERE id = %s", (nova_quantidade, item_id))
+        mysql.connection.commit()
+
+        # Calcule o novo total do item
+        item_total = nova_quantidade * float(item[1])  # `item[1]` é o preço do produto
+
+        # Recalcule o total geral do carrinho
+        cur.execute("SELECT SUM(quantidade * PRECO) as total_geral FROM CARRINHO JOIN CAD_PRODUTO ON CARRINHO.produto_id = CAD_PRODUTO.ID")
+        total_geral = cur.fetchone()[0]  # `total_geral` é o resultado da soma
+
+        # Feche o cursor
+        cur.close()
+
+        # Retorne os totais atualizados
+        return jsonify({
+            'item_total': item_total,
+            'total_geral': total_geral
+        })
+    else:
+        cur.close()
+        return jsonify({'error': 'Item não encontrado'}), 404
