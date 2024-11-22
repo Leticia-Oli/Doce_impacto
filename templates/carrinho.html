@@ -66,14 +66,14 @@
 
       <div class="botoes">
         <form action="{{ url_for('pedidos.resumo_pedido') }}" method="GET">
-          <button type="submit">Finalizar Comprar</button>
+          <button type="submit" class="btn-finalizar">Finalizar Comprar</button>
         </form>
 
         <form action="{{ url_for('cadastroProduto.listar_produto')}}" method="GET">
-          <button type="submit">Continuar Comprando</button>
+          <button type="submit" class="btn-continuar">Continuar Comprando</button>
         </form>
         <form action="{{ url_for('cadastroProduto.limpar_carrinho') }}" method="POST">
-          <button type="submit">Limpar Carrinho</button>
+          <button type="submit" class="btn-limpar">Limpar Carrinho</button>
         </form>
       </div>
     </div>

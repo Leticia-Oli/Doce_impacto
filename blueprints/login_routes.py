@@ -55,6 +55,3 @@ def login1():
 def admin_cad():
     return render_template('cadastroProduto.html')  
 
-@login_blueprint.route('/quemsomos', methods=['GET'])
-def quemsomos():
-    return render_template('QuemSomos.html') 

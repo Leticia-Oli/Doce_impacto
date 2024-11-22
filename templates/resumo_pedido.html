@@ -1,19 +1,27 @@
 {% extends 'index.html' %}
 
-    {% block head %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resumo do Pedido</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='styles/resumo_pedido.css')}}" type="text/css">
-    <link rel="icon" href="{{url_for('static', filename='images/cupcake.png')}}" type="image/png">
-    {% endblock %}
-<body>
-    <main>
-    {% block content %}
-    <h1>Resumo do Pedido</h1>
+{% block head %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumo do Pedido</title>
+<link rel="stylesheet" href="{{url_for('static', filename='styles/resumo_pedido.css')}}" type="text/css">
+<link rel="icon" href="{{url_for('static', filename='images/cupcake.png')}}" type="image/png">
+{% endblock %}
 
-    <div class="container">
-        <!-- Forma de Pagamento -->
+<body>
+<main>
+{% block content %}
+<h1>Resumo do Pedido</h1>
+
+<div class="container">
+    <div class="progress-bar">
+        <div class="step">1 Carrinho</div>
+        <div class="step">2 Identificação</div>
+        <div class="step active">3 Pagamento</div>
+        <div class="step">4 Finalizar Pedido</div>
+    </div>
+
+    <div class="conteudo-container">
         <div class="forma-pagamento">
             <h2>Forma de Pagamento</h2>
             <form action="{{ url_for('pedidos.finalizar_compra') }}" method="POST">
@@ -26,37 +34,81 @@
                 <label>
                     <input type="radio" name="pagamento" value="boleto"> Boleto
                 </label>
+
+                <!-- Informações do Cartão -->
+                <div id="cartao-info" class="cartao-info">
+                    <h3>Informações do Cartão</h3>
+                    <label>
+                        Número do Cartão:
+                        <input type="text" name="numero_cartao" maxlength="16" placeholder="Digite o número do cartão">
+                    </label>
+                    <label>
+                        Nome no Cartão:
+                        <input type="text" name="nome_cartao" placeholder="Nome como está no cartão">
+                    </label>
+                    <label>
+                        Data de Validade:
+                        <input type="month" name="validade_cartao">
+                    </label>
+                    <label>
+                        Código de Segurança (CVV):
+                        <input type="text" name="cvv_cartao" maxlength="3" placeholder="CVV">
+                    </label>
+                </div>
+
                 <button type="submit" class="button-finalizar">Finalizar Compra</button>
             </form>
         </div>
-    
-        <div class="detalhes-pedido">
-        <h2>Detalhes do Pedido</h2>
-        <table class="tabels-produtos">
-        <tr>
-            <th>Produto</th>
-            <th>Quantidade</th>
-            <th>Preço Unitário</th>
-            <th>Preço Total</th>
-        </tr>
-        {% for item in carrinho %}
-        <tr>
-            <td>{{ item['nome'] }}</td>
-            <td>{{ item['quantidade'] }}</td>
-            <td>R$ {{ item['preco'] }}</td>
-            <td>R$ {{ item['quantidade'] * item['preco'] }}</td>
-        </tr>
-        {% endfor %}
-        <tr>
-            <td colspan="3" class="total">Total:</td>
-            <td class="total">R$ {{ total }}</td>
-        </tr>
-    </table>
 
-    <form action="{{ url_for('cadastroProduto.ver_carrinho') }}" method="GET">
-        <button type="submit" class="button-voltar">Voltar ao Carrinho</button>
-    </form>
-    {% endblock %} 
+        <div class="detalhes-pedido">
+            <h2>Detalhes do Pedido</h2>
+            <table class="tabels-produtos">
+                <tr>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Preço Unitário</th>
+                    <th>Preço Total</th>
+                </tr>
+                {% for item in carrinho %}
+                <tr>
+                    <td>{{ item['nome'] }}</td>
+                    <td>{{ item['quantidade'] }}</td>
+                    <td>R$ {{ item['preco'] }}</td>
+                    <td>R$ {{ item['quantidade'] * item['preco'] }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3" class="total">Total:</td>
+                    <td class="total">R$ {{ total }}</td>
+                </tr>
+            </table>
+
+            <form action="{{ url_for('cadastroProduto.ver_carrinho') }}" method="GET">
+                <button type="submit" class="button-voltar">Voltar ao Carrinho</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Seletores
+        const radioCartao = document.querySelector('input[value="cartao"]');
+        const cartaoInfo = document.getElementById("cartao-info");
+        const radiosPagamento = document.querySelectorAll('input[name="pagamento"]');
+
+        // Adicionar evento de clique aos rádios
+        radiosPagamento.forEach(radio => {
+            radio.addEventListener("change", function () {
+                if (radioCartao.checked) {
+                    cartaoInfo.style.display = "block"; // Mostra o formulário do cartão
+                } else {
+                    cartaoInfo.style.display = "none"; // Esconde o formulário do cartão
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
 </main>
 </body>
-</html>

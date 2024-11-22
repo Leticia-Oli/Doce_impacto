@@ -1,0 +1,42 @@
+{% extends 'index.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{url_for('static', filename='styles/feedback.css')}}" type="text/css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title> Feedback | Doce Impacto </title>
+{% endblock %}
+{% block content %}
+
+<div class="conteudo">
+    <div class="parte_esquerda">
+        <h1> Leia o que nossos clientes estão pensando!</h1>
+        <p>
+            Descubra o que nossos clientes têm a dizer sobre nosso atendimento e produtos! 
+            Seus feedbacks são fundamentais para nós e ajudam a melhorar sempre. 
+            Se você também teve uma experiência legal, por que não compartilhar? 
+            Deixe seu comentário e faça parte da nossa história!
+        </p>
+        </div>
+        <div class="parte_direita">
+            {% for feedback in feedbacks %}
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/user_icon.png') }}" alt="cliente">
+                <div class="conteudo_card">
+                    <span><i class='bx bxs-quote-alt-left'></i></span>
+                        <div class="detalhes_card">
+                            <p>{{ feedback['mensagem'] }}</p>
+                            <h4><b>- {{ feedback['NOME'] }}</b></h4>
+                        </div>
+                </div>
+            </div>
+            {% else %}
+            <p>Nenhum feedback disponível no momento.</p>
+            {% endfor %}
+        </div>
+
+    <form action="{{ url_for('feedback.feedbacks') }}" method="POST">
+    <textarea name="mensagem" placeholder="Deixe seu feedback aqui..." required></textarea>
+    <button type="submit">Enviar Feedback</button>
+</form>
+
+{% endblock %} 

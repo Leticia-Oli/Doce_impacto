@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+:root{
+    --primary-color: #ff226f;
+    --primary-color-dark: #fe6769;
+    --text-dark: #333333;
+    --white: #ffffff;
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.conteudo{
+    max-width: 1200px;
+    margin: auto;
+    padding: 10rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10rem;
+}
+
+.parte_esquerda h1{
+    margin-bottom: 2rem;
+    font-family: Fredoka;
+    font-size: 50px;
+    font-weight: 500;
+    color: var(--text-dark);
+    line-height: 1.2;
+}
+
+.parte_esquerda p{
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+    font-family: Inter;
+}
+
+button {
+    font-family: Inter;
+    padding: 1rem 2rem;
+    margin-top: 1rem;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    background: palevioletred;
+    border: 2px solid palevioletred;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: .5s;
+}
+
+button:hover{
+    background: transparent;
+    color: #000;
+}
+
+.parte_direita {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.card {
+    padding: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    background-color: var(--white);
+    border-radius: 1rem;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.card img {
+    max-width: 60px;
+    border-radius: 50%;
+}
+
+.conteudo_card {
+    display: flex;
+    gap: 1rem;
+}
+
+.conteudo_card span i {
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+.detalhes_card p {
+    font-style: italic;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem; 
+    font-size: 1.5rem;   
+}
+
+.detalhes_card h4 {
+    text-align: right;
+    color: black;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0;
+}

@@ -1,12 +1,13 @@
 /* Estilo geral do contêiner */
 .container-carrinho {
+    width: 90%;
+    max-width: 800px;
+    min-width: 300px;
     border: 2px solid #D3C0E8;
     padding: 20px;
     border-radius: 8px;
     background-color: #FAF3F5;
-    max-width: 800px;
     margin: 0 auto;
-    /*font-family: 'SuaFonteEscolhida', sans-serif; */
 }
 
 /* Barra de progresso */
@@ -105,6 +106,7 @@
 .botoes {
     display: flex;
     justify-content: space-between;
+    gap: 10px;
     margin-top: 20px;
 }
 
@@ -114,10 +116,13 @@
     border: none;
     font-weight: bold;
     cursor: pointer;
-    color: white;
+    color: #FFFFFF;
 }
 
 .botoes .btn-continuar {
+    background-color: #D09F9F;
+}
+.botoes .btn-limpar {
     background-color: #D09F9F;
 }
 
@@ -126,8 +131,8 @@
 }
 
 .quantidade button {
-    background-color: #D09F9F;
-    color: white;
+    background-color: #f17777;
+    color: rgb(240, 127, 127);
     border: none;
     width: 30px;
     height: 30px;

@@ -1,0 +1,87 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    margin-top: 40px;
+}
+
+.profile-header h2 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.profile-info {
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 300px;
+    row-gap: 10px;
+    padding-left: 30px;
+}
+
+.info-item {
+    justify-content: space-between; 
+    align-items: center;
+    padding: 10px 0;
+    font-size: 20px;
+    
+}
+
+.info-item strong {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.info-item span {
+    font-size: 16px;
+    color: #333333;
+}
+
+.edit-button {
+    text-align: center;
+}
+
+.edit-button a {
+    padding: 10px 20px;
+    background-color: #ff226f;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.edit-button a:hover {
+    background-color: #fe6769;
+}
+
+.actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.actions .btn {
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #fff;
+    background-color: var(--primary-color);
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.actions .btn:hover {
+    background-color: var(--primary-color-dark);
+}
+
+.actions .btn-danger {
+    background-color: #d9534f;
+}
+
+.actions .btn-danger:hover {
+    background-color: #c9302c;
+}

@@ -3,8 +3,10 @@ from flask_mysqldb import MySQL
 import mysql.connector
 
 
+
 app = Flask (__name__)
 app.secret_key = 'doces'
+
 
 #Conexão com o Banco
 db = mysql.connector.connect(

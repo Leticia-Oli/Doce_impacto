@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Doce Impacto{% endblock %}</title>
+    <link rel="icon" href="{{url_for('static', filename='images/cupcake.png')}}" type="image/png">
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/barra_navegar.css')}}">
     {% block head %}{% endblock %}  
     </head>
@@ -15,12 +15,12 @@
             <div class="logo">Doce Impacto</div>
             <div class="menu">
                 <a href="{{ url_for('cadastroProduto.listar_produto')}}">Produtos</a>
-                <a href="{{ url_for('login.quemsomos') }}">Quem Somos</a> 
+                <a href="{{ url_for('feedback.feedbacks') }}">FeedBacks</a> 
                 <a href="{{ url_for('login.home') }}">Contato</a>
                 <a href="{{ url_for('cadastroProduto.ver_carrinho') }}"><img src="{{url_for('static', filename='images/carrinho.png')}}"alt="Carro"> Carrinho</a>
     
                 {% if session.get('usuario_logado') %}
-                    <a href="{{ url_for('pedidos.resumo_pedido') }}">Minha Conta</a>
+                    <a href="{{ url_for('cadastro.minha_conta') }}">Minha Conta</a>
                 {% else %}
                     <a href="{{ url_for('login.login1') }}">Login</a>
                 {% endif %}
