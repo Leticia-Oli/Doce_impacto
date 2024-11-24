@@ -62,47 +62,78 @@ def finalizar_compra():
     if not usuario_id:
         return redirect(url_for('login.login'))
 
-    forma_pagamento = request.form.get('pagamento')
-    
     cur = mysql.connection.cursor()
-    # 1. Buscar itens do carrinho
+
     cur.execute("""
-        SELECT CARRINHO.produto_id, CARRINHO.quantidade, CAD_PRODUTO.PRECO
-        FROM CARRINHO 
-        JOIN CAD_PRODUTO ON CARRINHO.produto_id = CAD_PRODUTO.id 
+        SELECT CARRINHO.produto_id, CAD_PRODUTO.PRECO, CARRINHO.quantidade
+        FROM CARRINHO
+        JOIN CAD_PRODUTO ON CARRINHO.produto_id = CAD_PRODUTO.id
         WHERE CARRINHO.usuario_id = %s
     """, (usuario_id,))
     itens_carrinho = cur.fetchall()
 
     if not itens_carrinho:
-        flash('Seu carrinho está vazio.')
-        return redirect(url_for('cadastroProduto.listar_produto'))
+        flash("Seu carrinho está vazio!")
+        return redirect(url_for('cadastroProduto.ver_carrinho'))
 
-    # 2. Calcular o total do pedido
-    total_pedido = sum(float(item[2]) * int(item[1]) for item in itens_carrinho)
+    # Calcular o total do pedido
+    total = sum(float(item[1]) * int(item[2]) for item in itens_carrinho)
 
-    # 3. Inserir o pedido na tabela 'PEDIDOS'
+    # Inserir um novo pedido na tabela PEDIDOS
     cur.execute("""
-        INSERT INTO PEDIDOS (usuario_id, order_date, total, forma_pagamento)
-        VALUES (%s, NOW(), %s, %s)
-    """, (usuario_id, total_pedido, forma_pagamento))
-    pedido_id = cur.lastrowid # Pega o ID do pedido recém-criado
+        INSERT INTO PEDIDOS (usuario_id, order_date, total)
+        VALUES (%s, NOW(), %s)
+    """, (usuario_id, total))
+    pedido_id = cur.lastrowid  # Obter o ID do pedido recém-criado
 
-    # 4. Transferir os itens do carrinho para a tabela 'PEDIDOS_ITEMS'
+    # Inserir itens do pedido na tabela PEDIDOS_ITEMS
     for item in itens_carrinho:
+        produto_id = item[0]
+        preco = float(item[1])
+        quantidade = int(item[2])
         cur.execute("""
             INSERT INTO PEDIDOS_ITEMS (pedido_id, produto_id, quantidade, preco)
             VALUES (%s, %s, %s, %s)
-        """, (pedido_id, item[0], item[1], item[2]))
-    
-    cur.execute("DELETE FROM CARRINHO WHERE usuario_id = %s", (usuario_id,))
+        """, (pedido_id, produto_id, quantidade, preco))
 
+    # Limpar o carrinho do usuário
+    cur.execute("DELETE FROM CARRINHO WHERE usuario_id = %s", (usuario_id,))
     mysql.connection.commit()
     cur.close()
 
-    flash('Compra finalizada com sucesso!')
-    return redirect(url_for('cadastroProduto.listar_produto'))
+    flash("Compra finalizada com sucesso!")
+    return redirect(url_for('pedidos.ver_pedido', pedido_id=pedido_id))
 
+@pedidos_blueprint.route('/ver_pedido/<int:pedido_id>', methods=['GET'])
+def ver_pedido(pedido_id):
+    usuario_id = usuario_logado()
+    if not usuario_id:
+        return redirect(url_for('login.login'))
+
+    # Recuperar informações do pedido
+    cur = mysql.connection.cursor()
+    cur.execute("""
+        SELECT PEDIDOS.id, PEDIDOS.order_date, PEDIDOS.total
+        FROM PEDIDOS
+        WHERE PEDIDOS.id = %s AND PEDIDOS.usuario_id = %s
+    """, (pedido_id, usuario_id))
+    pedido = cur.fetchone()
+
+    if not pedido:
+        flash("Pedido não encontrado!")
+        return redirect(url_for('cadastroProduto.ver_carrinho'))
+
+    # Recuperar itens do pedido
+    cur.execute("""
+        SELECT PEDIDOS_ITEMS.produto_id, CAD_PRODUTO.PRODUTO, PEDIDOS_ITEMS.quantidade, PEDIDOS_ITEMS.preco
+        FROM PEDIDOS_ITEMS
+        JOIN CAD_PRODUTO ON PEDIDOS_ITEMS.produto_id = CAD_PRODUTO.id
+        WHERE PEDIDOS_ITEMS.pedido_id = %s
+    """, (pedido_id,))
+    itens_pedido = cur.fetchall()
+    cur.close()
+
+    return render_template('pedidos.html', pedido=pedido, itens=itens_pedido)
 
 
 # Parte Administrativa
@@ -136,5 +167,4 @@ def listar_pedidos():
 
     # Renderizar template com os dados de pedidos
     return render_template('Pedidos_admin.html', pedidos=lista_pedidos)
-
 

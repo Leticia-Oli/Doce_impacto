@@ -1,12 +1,6 @@
 /* Estilos Gerais */
 body {
     background-color: #f7e9e3;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    margin: 0;
 }
 
 h1, h2 {
@@ -62,7 +56,7 @@ h1, h2 {
 
 /* Seção: Forma de Pagamento */
 .forma-pagamento {
-    width: 30%;
+    width: 50%;
     border-right: 2px solid #f4c2c2;
     padding-right: 20px;
 }

@@ -1,5 +1,6 @@
 from flask import Blueprint, flash, request, jsonify, render_template, redirect, url_for, session
 from config import db
+import base64
 
 login_blueprint = Blueprint('login', __name__)
 
@@ -53,5 +54,19 @@ def login1():
 
 @login_blueprint.route('/admin_cad', methods=['GET'])
 def admin_cad():
-    return render_template('cadastroProduto.html')  
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM CAD_PRODUTO")
+    produtos = cursor.fetchall()
 
+    for produto in produtos:
+        if produto['IMAGEM']:
+            produto['IMAGEM'] = base64.b64encode(produto['IMAGEM']).decode('utf-8')
+            
+
+    return render_template('areaADM.html', produtos=produtos)  
+
+@login_blueprint.route('/logout')
+def logout():
+    session.clear()
+    flash('Você saiu da sua conta com sucesso.', 'success')
+    return redirect(url_for('login.login_page'))

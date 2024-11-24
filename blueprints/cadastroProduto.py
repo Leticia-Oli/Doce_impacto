@@ -1,10 +1,12 @@
 from flask import Blueprint, request, jsonify, render_template, redirect, url_for, session, flash
 from config import mysql
 import base64
-from datetime import datetime
+from flask_mysqldb import MySQL
+import MySQLdb
 
 cadastroProduto_blueprint = Blueprint('cadastroProduto', __name__)
 
+# Area Administrativa
 @cadastroProduto_blueprint.route('/adicionar_prod', methods=['POST'])
 def adicionar_prod():
     if request.method == 'POST':
@@ -39,7 +41,7 @@ def adicionar_prod():
             produtos['produto'],
             produtos['preco'],
             produtos['descricao'],
-            produtos['categoria'],
+            produtos['quantidade'],
             imagem_data
         ))
         mysql.connection.commit()
@@ -47,6 +49,107 @@ def adicionar_prod():
 
         return redirect(url_for('cadastroProduto.listar_produto'))
     
+@cadastroProduto_blueprint.route('/admin/produtos', methods=['GET'])
+def listar_produtos_admin():
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM CAD_PRODUTO")
+        produtos = cur.fetchall()
+        cur.close()
+
+        print("Produtos retornados do banco:", produtos, flush=True ) # Verifique os dados aqui
+        produtos_com_imagem = []
+        for produto in produtos:
+            imagem_b64 = base64.b64encode(produto[5] or b'').decode('utf-8') if produto[5] else 'fallback-image.png'
+            produtos_com_imagem.append({
+            "id": produto[0],
+            "nome": produto[1],
+            "preco": produto[2],
+            "descricao": produto[3],
+            "quantidade": produto[4],
+            "imagem": imagem_b64  
+        })
+
+            print("Produtos enviados ao template:", produtos_com_imagem)  # Verifique aqui também
+
+        return render_template('areaADM.html', produtos=produtos_com_imagem)
+    except Exception as e:
+        print("Erro ao listar produtos para o administrador:", e)
+        return "Erro ao listar produtos", 500
+
+        
+
+@cadastroProduto_blueprint.route('/editar_produto/<int:produto_id>', methods=['GET'])
+def editar_produto(produto_id):
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    if request.method == 'GET':
+        cur.execute("SELECT * FROM CAD_PRODUTO WHERE ID = %s", (produto_id,))
+        produto = cur.fetchone()
+        
+        if not produto:
+            flash('Produto não encontrado.', 'danger')
+            return redirect(url_for('login.admin_cad'))
+
+        
+        return render_template('editar_produto.html', produto=produto)
+
+    elif request.method == 'POST':
+            # Atualizar o produto com os novos dados do formulário
+            nome = request.form['produto']
+            preco = request.form['preco']
+            descricao = request.form['descricao']
+            quantidade = request.form['quantidade']
+            imagem = request.files['imagem']  # Lidar com a nova imagem se fornecida
+            
+            if imagem:
+                imagem_b64 = base64.b64encode(imagem.read()).decode('utf-8')
+                cur.execute("""
+                    UPDATE CAD_PRODUTO 
+                    SET nome = %s, preco = %s, descricao = %s, quantidade = %s, imagem = %s
+                    WHERE id = %s
+                """, (nome, preco, descricao, quantidade, imagem_b64, produto_id))
+            else:
+                cur.execute("""
+                    UPDATE CAD_PRODUTO 
+                    SET nome = %s, preco = %s, descricao = %s, quantidade = %s
+                    WHERE id = %s
+                """, (nome, preco, descricao, quantidade, produto_id))
+
+            mysql.connection.commit()
+            flash('Produto atualizado com sucesso!', 'success')
+            return redirect(url_for('login.admin_cad'))
+
+    
+@cadastroProduto_blueprint.route('/atualizar_produto/<int:id>', methods=['POST'])
+def atualizar_produto(id):
+    produto = request.form['produto']
+    preco = request.form['preco']
+    descricao = request.form['descricao']
+    quantidade = request.form['quantidade']
+    imagem = request.form['imagem']
+
+    cur = mysql.connection.cursor()
+    cur.execute("""
+        UPDATE CAD_PRODUTO 
+        SET PRODUTO = %s, PRECO = %s, DESCRICAO = %s, QUANTIDADE = %s, IMAGEM = %s 
+        WHERE ID = %s
+    """, (produto, preco, descricao, quantidade, imagem, id))
+    mysql.connection.commit()
+    cur.close()
+
+    return redirect(url_for('login.admin_cad'))
+
+
+# Área do Cliente
+
+def usuario_logado():
+    usuario_id = session.get('usuario_id') 
+    
+    if not usuario_id:
+        flash('Você precisa estar logado para adicionar ao carrinho.')
+        return None
+    return usuario_id
+   
 @cadastroProduto_blueprint.route('/produto', methods=['GET'])
 def listar_produto():
       cur = mysql.connection.cursor()
@@ -59,19 +162,10 @@ def listar_produto():
         # Codificar a imagem em base64
       produtos_com_imagem = []
       for prod in produto:
-        imagem_b64 = base64.b64encode(prod[5]).decode('utf-8')  # Supondo que a imagem está no índice 5
-        produtos_com_imagem.append((*prod[:5], imagem_b64))  # Adiciona a imagem codificada à tupla
+        imagem_b64 = base64.b64encode(prod[5]).decode('utf-8')  
+        produtos_com_imagem.append((*prod[:5], imagem_b64))  
 
       return render_template('produto.html', produtos=produtos_com_imagem)
-
-def usuario_logado():
-    usuario_id = session.get('usuario_id')  # Exemplo de como pegar o ID do usuário logado
-    
-    if not usuario_id:
-        flash('Você precisa estar logado para adicionar ao carrinho.')
-        return None
-    return usuario_id
-
 
 # Adicionar item ao carrinho
 @cadastroProduto_blueprint.route('/add_to_cart/<int:produto_id>', methods=['POST'])
@@ -156,37 +250,24 @@ def limpar_carrinho():
 
 @cadastroProduto_blueprint.route('/atualizar_quantidade', methods=['POST'])
 def atualizar_quantidade():
-    item_id = request.json.get('item_id')
-    nova_quantidade = request.json.get('nova_quantidade')
+    data = request.get_json()
+    item_id = data.get('item_id')
+    nova_quantidade = data.get('nova_quantidade')
 
-    # Verifica se a quantidade é maior que zero
-    if nova_quantidade <= 0:
-        return jsonify({'error': 'Quantidade inválida'}), 400
-    
+    if not item_id or not nova_quantidade:
+        return jsonify({'error': 'Dados inválidos'}), 400
+
+    usuario_id = usuario_logado()
+    if not usuario_id:
+        return jsonify({'error': 'Usuário não autenticado'}), 401
+
     cur = mysql.connection.cursor()
-    cur.execute("SELECT quantidade, preco FROM CARRINHO JOIN CAD_PRODUTO ON CARRINHO.produto_id = CAD_PRODUTO.ID WHERE CARRINHO.id = %s", (item_id,))
-    item = cur.fetchone()
+    cur.execute("""
+        UPDATE CARRINHO
+        SET quantidade = %s
+        WHERE produto_id = %s AND usuario_id = %s
+    """, (nova_quantidade, item_id, usuario_id))
+    mysql.connection.commit()
+    cur.close()
 
-    if item:
-        # Atualize a quantidade no banco de dados
-        cur.execute("UPDATE CARRINHO SET quantidade = %s WHERE id = %s", (nova_quantidade, item_id))
-        mysql.connection.commit()
-
-        # Calcule o novo total do item
-        item_total = nova_quantidade * float(item[1])  # `item[1]` é o preço do produto
-
-        # Recalcule o total geral do carrinho
-        cur.execute("SELECT SUM(quantidade * PRECO) as total_geral FROM CARRINHO JOIN CAD_PRODUTO ON CARRINHO.produto_id = CAD_PRODUTO.ID")
-        total_geral = cur.fetchone()[0]  # `total_geral` é o resultado da soma
-
-        # Feche o cursor
-        cur.close()
-
-        # Retorne os totais atualizados
-        return jsonify({
-            'item_total': item_total,
-            'total_geral': total_geral
-        })
-    else:
-        cur.close()
-        return jsonify({'error': 'Item não encontrado'}), 404
+    return jsonify({'success': True})

@@ -12,41 +12,40 @@
         <h1>Minha Conta</h1>
 
     <div class="profile-info">
-            <div class="info-item">
+        <div class="info-item">
             <strong>Nome:</strong> 
             <span>{{ usuario.nome }} </span>
-            </div>
-                <div class="info-item">
-                    <strong>Email:</strong>
-                    <span>{{ usuario.email }}</span>  
-                </div>
-                    <div class="info-item">
-                        <strong>Gênero:</strong>
-                        <span>{{ usuario.sexo }}</span> 
-                    </div> 
-
-                        <div class="info-item">
-                        <strong>Data de Nascimento:</strong>
-                        <span>{{ usuario.data_nasc }}</span>  
-                        </div>
-                            <div class="info-item">
-                                <strong>Telefone:</strong>
-                                <span>{{ usuario.telefone }}</span>  
-                            </div>
-                                <div class="info-item">
-                                    <strong>Curso/Cargo:</strong>
-                                    <span>{{ usuario.curso_cargo }}</span>  
-                                </div>
-                                    <div class="info-item">
-                                        <strong>Turno:</strong>
-                                        <span>{{ usuario.turno }}</span>  
-                                    </div>
+        </div>
+        <div class="info-item">
+            <strong>Email:</strong>
+            <span>{{ usuario.email }}</span>  
+        </div>
+        <div class="info-item">
+            <strong>Gênero:</strong>
+            <span>{{ usuario.sexo }}</span> 
+        </div> 
+        <div class="info-item">
+            <strong>Data de Nascimento:</strong>
+            <span>{{ usuario.data_nasc }}</span>  
+        </div>
+        <div class="info-item">
+            <strong>Telefone:</strong>
+            <span>{{ usuario.telefone }}</span>  
+        </div>
+        <div class="info-item">
+            <strong>Curso/Cargo:</strong>
+            <span>{{ usuario.curso_cargo }}</span>  
+        </div>
+        <div class="info-item">
+            <strong>Turno:</strong>
+            <span>{{ usuario.turno }}</span>  
+        </div>
     </div>
             <div class="actions">
                 <div class="edit-button">
                     <a href="/editar_conta" class="btn">Editar Conta</a>
                 </div>
-                <a href="/logout" class="btn btn-danger">Sair</a>
+                <a href="{{ url_for('login.logout') }}" class="btn btn-danger">Sair</a>
             </div>
    </div>
   </div>

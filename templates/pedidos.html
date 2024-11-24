@@ -1,0 +1,29 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<h1>Detalhes do Pedido</h1>
+
+<h2>Pedido #{{ pedido[0] }}</h2>
+<p>Data: {{ pedido[1] }}</p>
+<p>Total: R$ {{ pedido[2] }}</p>
+
+<table>
+    <tr>
+        <th>Produto</th>
+        <th>Quantidade</th>
+        <th>Preço Unitário</th>
+        <th>Total</th>
+    </tr>
+    {% for item in itens %}
+    <tr>
+        <td>{{ item[1] }}</td>
+        <td>{{ item[2] }}</td>
+        <td>R$ {{ item[3] }}</td>
+        <td>R$ {{ item[2] * item[3] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<a href="{{ url_for('cadastroProduto.listar_produto') }}">Continuar Comprando</a>
+
+{% endblock %}

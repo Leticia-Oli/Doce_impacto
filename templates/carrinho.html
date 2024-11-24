@@ -1,15 +1,12 @@
 {% extends 'index.html' %}
 
-{% block title %}Carinho de Compras | Doce Impacto{% endblock %}
-
 {% block content %}
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/style-carrinho.css') }}" type="text/css">
     <link rel="icon" href="{{ url_for('static', filename='images/cupcake.png') }}" type="image/png">
-</head>
+    {% block title %}Carinho de Compras | Doce Impacto{% endblock %}
+  </head>
 <body>
 
     <h1>Seu Carrinho de Compras</h1>
@@ -42,16 +39,16 @@
             <th>Imagem</th>
         </tr>
         {% for item in carrinho %}
-        <tr>
-            <td>{{ item['nome'] }}</td>
+        <tr>  
+          <td class="produto-nome-banco">{{ item['nome'] }}</td>
             <td class="quantidade">
-              <button onclick="atualizarQuantidade({{ item['id'] }}, {{ item['quantidade'] - 1 }})"> - </button>
+              <button onclick="atualizarQuantidade({{ item['id'] }}, -1)"> - </button>
               <span id="quantidade-{{ item['id'] }}">{{ item['quantidade'] }}</span>
-              <button onclick="atualizarQuantidade({{ item['id'] }}, {{ item['quantidade'] + 1 }})"> + </button>
+              <button onclick="atualizarQuantidade({{ item['id'] }}, 1)"> + </button>
             </td>
-            <td>R$ {{ item['preco'] }}</td>
-            <td id="item-total-{{ item['id'] }}">R$ {{ item['quantidade'] * item['preco'] }}</td>
-            <td><img src="data:image/jpeg;base64,{{ item['imagem'] }}" alt="Imagem" style="width: 100px; height: auto;"></td>
+            <td id="item-preco-{{ item['id'] }}">R$ {{ item['preco'] }}</td>
+            <td id="item-total-{{ item['id'] }}" class="produto-total">R$ {{ item['quantidade'] * item['preco'] }}</td>
+          <td><img src="data:image/jpeg;base64,{{ item['imagem'] }}" alt="Imagem" style="width: 100px; height: auto;"></td>
         </tr>
         {% else %}
         <tr>
@@ -79,30 +76,60 @@
     </div>
 
 <script>
-  function atualizarQuantidade(itemId, novaQuantidade) {
-    console.log("Atualizando quantidade do item:", itemId, "Nova quantidade:", novaQuantidade);  
-    fetch("{{ url_for('cadastroProduto.atualizar_quantidade') }}", {
-      method: 'POST',
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-              item_id: itemId,
-              nova_quantidade: novaQuantidade
-          })
-      })
-      .then(response => response.json())
-      .then(data => {
-          if (data.error) {
-              alert(data.error);
-          } else {
-              document.querySelector(`#item-total-${itemId}`).textContent = `R$ ${data.item_total.toFixed(2)}`;
-              document.querySelector('#total-geral').textContent = `R$ ${data.total_geral.toFixed(2)}`;
-          }
-      })
-      .catch(error => console.error('Erro:', error));
-  }
+function atualizarQuantidade(itemId, delta) {
+    // Obter o elemento de quantidade
+    var quantidadeElement = document.querySelector(`#quantidade-${itemId}`);
+    var quantidadeAtual = parseInt(quantidadeElement.textContent);
+
+    // Calcular a nova quantidade (não permitindo valores negativos)
+    var novaQuantidade = Math.max(quantidadeAtual + delta, 1); // Não permite quantidade menor que 1
+
+    // Atualizar a quantidade no frontend
+    quantidadeElement.textContent = novaQuantidade;
+
+    // Obter o preço unitário do produto
+    var precoUnitario = parseFloat(
+        document.querySelector(`#item-preco-${itemId}`)
+            .textContent.replace('R$', '')
+            .trim()
+    );
+
+    // Calcular o novo preço total para este item
+    var novoPrecoTotal = (novaQuantidade * precoUnitario).toFixed(2);
+
+    // Atualizar o preço total no frontend
+    document.querySelector(`#item-total-${itemId}`).textContent = `R$ ${novoPrecoTotal}`;
+
+    // Atualizar a quantidade no backend via fetch
+    fetch("/atualizar_quantidade", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            item_id: itemId,
+            nova_quantidade: novaQuantidade
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+        } else {
+            // Recalcular o total geral após a resposta bem-sucedida
+            var totalGeral = 0;
+            document.querySelectorAll('.produto-total').forEach(function (item) {
+                totalGeral += parseFloat(
+                    item.textContent.replace('R$', '').trim()
+                );
+            });
+
+            // Atualizar o total geral no frontend
+            document.querySelector('#total-geral').textContent = `R$ ${totalGeral.toFixed(2)}`;
+        }
+    })
+    .catch(error => console.error('Erro:', error));
+}
 </script>
 
 </body>

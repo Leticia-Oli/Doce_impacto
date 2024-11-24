@@ -27,8 +27,7 @@
             <h1 class = "lg-title">Nossos produtos deliciosos</h1>
             <p class = "text-light">Explore nosso código de sabores! Cada produto é compilado com ingredientes de alta performance para satisfazer seu paladar em um loop de prazer. Prepare-se para uma sobremesa que vai fazer o seu sistema dar um refresh em cada mordida. Não deixe o erro 404 aparecer no seu carrinho: adicione agora e experimente a doçura que foi feita para você!</p>
 
-            <div class = "produto-items">
-                <!-- produto 1 -->
+            <div class = "produto-items">   
                 {% for produto in produtos %}
                 <div class = "produto">
                     <div class = "produto-content">
@@ -63,15 +62,6 @@
                 <!-- fim produto 1 -->
                 {% endfor %}
             </div>
-
-           <!-- <div class="carrinho-no-canto">
-                <form action="{{url_for('cadastroProduto.ver_carrinho')}}" method="GET">
-                    <button type="submit">
-                        <p>Carrinho:</p>
-                        <img src="{{url_for('static', filename='images/carrinho.png')}}">
-                    </button>
-                </form>
-                </div> -->
         </div>
     </div>
 {% endblock %} 

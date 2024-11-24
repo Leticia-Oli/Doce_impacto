@@ -11,6 +11,7 @@ app.register_blueprint(cadastroProduto_blueprint)
 app.register_blueprint(pedidos_blueprint)
 app.register_blueprint(feedback_blueprint)
 
+
 if __name__ == '__main__':
     app.run(host=app.config['HOST'],
             port=app.config['PORT'],
