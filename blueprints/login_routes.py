@@ -1,6 +1,7 @@
-from flask import Blueprint, flash, request, jsonify, render_template, redirect, url_for, session
+from flask import Blueprint, flash, request, jsonify, render_template, redirect, url_for, session, make_response
 from config import db
 import base64
+from blueprints.pedidos import listar_pedidos
 
 login_blueprint = Blueprint('login', __name__)
 
@@ -60,10 +61,12 @@ def admin_cad():
 
     for produto in produtos:
         if produto['IMAGEM']:
-            produto['IMAGEM'] = base64.b64encode(produto['IMAGEM']).decode('utf-8')
-            
+            produto['IMAGEM'] = base64.b64encode(produto['IMAGEM']).decode('utf-8')        
 
-    return render_template('areaADM.html', produtos=produtos)  
+    pedidos = listar_pedidos()
+
+
+    return render_template('areaADM.html', produtos=produtos, pedidos=pedidos)  
 
 @login_blueprint.route('/logout')
 def logout():

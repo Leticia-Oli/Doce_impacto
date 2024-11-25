@@ -1,0 +1,128 @@
+/* Geral */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f1f4; /* Fundo rosé claro */
+    color: #4a004d; /* Texto vinho */
+    margin: 0;
+    padding: 0;
+}
+
+/* Container principal */
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border: 2px solid #ff85b3; /* Borda rosa */
+}
+
+/* Título */
+h1 {
+    text-align: center;
+    color: #880e4f; /* Vinho claro */
+    font-size: 24px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ff85b3;
+    padding-bottom: 10px;
+}
+
+/* Formulário */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #4a004d; /* Vinho */
+}
+
+input, textarea, select {
+    font-size: 16px;
+    padding: 10px;
+    border: 1px solid #ffb3c6; /* Borda rosé */
+    border-radius: 5px;
+    margin-bottom: 15px;
+    outline: none;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #ff85b3; /* Rosa em foco */
+    box-shadow: 0 0 4px rgba(255, 133, 179, 0.5);
+}
+
+/* Botão */
+button {
+    background-color: #ff85b3; /* Rosa */
+    color: #fff; /* Branco */
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #d14780; /* Rosa mais escuro */
+}
+
+button:active {
+    background-color: #b23d6b; /* Vinho claro */
+}
+
+/* Imagem de pré-visualização */
+.image-doce {
+    display: block;
+    max-width: 300px; /* Ajuste conforme necessário */
+    max-height: 300px;
+    margin: 15px 0;
+    border: 2px solid #ffb3c6; /* Rosé */
+    border-radius: 10px;
+}
+
+
+/* Mensagens de erro ou sucesso */
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.alert-danger {
+    background-color: #f8d7da; /* Fundo vermelho claro */
+    color: #721c24; /* Texto vermelho */
+    border: 1px solid #f5c6cb;
+}
+
+.alert-success {
+    background-color: #d4edda; /* Fundo verde claro */
+    color: #155724; /* Texto verde */
+    border: 1px solid #c3e6cb;
+}
+
+/* Botão de voltar */
+.back-button {
+    display: inline-block;
+    background-color: #ffb3c6; /* Rosé */
+    color: #4a004d; /* Vinho */
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 10px 15px;
+    border: 2px solid #ff85b3; /* Rosa */
+    border-radius: 5px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #ff85b3; /* Rosa mais intenso */
+    color: #fff; /* Branco */
+}

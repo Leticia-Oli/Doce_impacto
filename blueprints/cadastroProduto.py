@@ -47,11 +47,11 @@ def adicionar_prod():
         mysql.connection.commit()
         cur.close()
 
-        return redirect(url_for('cadastroProduto.listar_produto'))
+        return redirect(url_for('login.admin_cad'))
     
 @cadastroProduto_blueprint.route('/admin/produtos', methods=['GET'])
 def listar_produtos_admin():
-    try:
+    
         cur = mysql.connection.cursor()
         cur.execute("SELECT * FROM CAD_PRODUTO")
         produtos = cur.fetchall()
@@ -73,23 +73,20 @@ def listar_produtos_admin():
             print("Produtos enviados ao template:", produtos_com_imagem)  # Verifique aqui também
 
         return render_template('areaADM.html', produtos=produtos_com_imagem)
-    except Exception as e:
-        print("Erro ao listar produtos para o administrador:", e)
-        return "Erro ao listar produtos", 500
 
         
 
-@cadastroProduto_blueprint.route('/editar_produto/<int:produto_id>', methods=['GET'])
+@cadastroProduto_blueprint.route('/editar_produto/<int:produto_id>', methods=['GET', 'POST'])
 def editar_produto(produto_id):
     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    
     if request.method == 'GET':
         cur.execute("SELECT * FROM CAD_PRODUTO WHERE ID = %s", (produto_id,))
         produto = cur.fetchone()
         
         if not produto:
             flash('Produto não encontrado.', 'danger')
-            return redirect(url_for('login.admin_cad'))
-
+            return redirect(url_for('login.admin_cad'))        
         
         return render_template('editar_produto.html', produto=produto)
 
@@ -99,19 +96,19 @@ def editar_produto(produto_id):
             preco = request.form['preco']
             descricao = request.form['descricao']
             quantidade = request.form['quantidade']
-            imagem = request.files['imagem']  # Lidar com a nova imagem se fornecida
+            imagem = request.files.get('imagem')
             
-            if imagem:
-                imagem_b64 = base64.b64encode(imagem.read()).decode('utf-8')
+            if imagem and imagem.filename !='':
+                imagem_data = imagem.read()
                 cur.execute("""
                     UPDATE CAD_PRODUTO 
-                    SET nome = %s, preco = %s, descricao = %s, quantidade = %s, imagem = %s
-                    WHERE id = %s
-                """, (nome, preco, descricao, quantidade, imagem_b64, produto_id))
+                    SET PRODUTO = %s, PRECO = %s, DESCRICAO = %s, QUANTIDADE = %s, IMAGEM = %s
+                    WHERE ID = %s
+                """, (nome, preco, descricao, quantidade, imagem_data, produto_id))
             else:
                 cur.execute("""
                     UPDATE CAD_PRODUTO 
-                    SET nome = %s, preco = %s, descricao = %s, quantidade = %s
+                    SET produto = %s, preco = %s, descricao = %s, quantidade = %s
                     WHERE id = %s
                 """, (nome, preco, descricao, quantidade, produto_id))
 
@@ -120,27 +117,24 @@ def editar_produto(produto_id):
             return redirect(url_for('login.admin_cad'))
 
     
-@cadastroProduto_blueprint.route('/atualizar_produto/<int:id>', methods=['POST'])
-def atualizar_produto(id):
-    produto = request.form['produto']
-    preco = request.form['preco']
-    descricao = request.form['descricao']
-    quantidade = request.form['quantidade']
-    imagem = request.form['imagem']
 
-    cur = mysql.connection.cursor()
-    cur.execute("""
-        UPDATE CAD_PRODUTO 
-        SET PRODUTO = %s, PRECO = %s, DESCRICAO = %s, QUANTIDADE = %s, IMAGEM = %s 
-        WHERE ID = %s
-    """, (produto, preco, descricao, quantidade, imagem, id))
+@cadastroProduto_blueprint.route('/deletar_produto/<int:id>', methods=["POST"])
+def deletar_produto(id):
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cur.execute("UPDATE CAD_PRODUTO SET ATIVO = 0 WHERE ID = %s", (id,))
     mysql.connection.commit()
-    cur.close()
 
     return redirect(url_for('login.admin_cad'))
 
+@cadastroProduto_blueprint.route('/reativar_produto/<int:id>', methods=["POST"])
+def reativar_produto(id):
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cur.execute("UPDATE CAD_PRODUTO SET ATIVO = 1 WHERE ID = %s", (id,))
+    mysql.connection.commit()
 
-# Área do Cliente
+    return redirect(url_for('login.admin_cad'))
+
+# Área do Cliente #
 
 def usuario_logado():
     usuario_id = session.get('usuario_id') 
@@ -153,11 +147,9 @@ def usuario_logado():
 @cadastroProduto_blueprint.route('/produto', methods=['GET'])
 def listar_produto():
       cur = mysql.connection.cursor()
-      cur.execute("SELECT * FROM CAD_PRODUTO")
+      cur.execute("SELECT * FROM CAD_PRODUTO WHERE ATIVO =1")
       produto = cur.fetchall()
       cur.close()
-
-      print(produto)
 
         # Codificar a imagem em base64
       produtos_com_imagem = []

@@ -11,94 +11,153 @@
     <link rel="icon" href="{{ url_for('static', filename='images/cupcake.png') }}" type="image/png">
 </head>
 <body>
-    <div>       
+    <div>  
+             
         <!-- Barra de navegação -->
         <div class="nav-buttons">
-            <form id="form-listar-produtos">
-                <input type="button" value="Listar produtos" onclick="showSection('listar-produtos')">
-            </form>
-            <form id="form-cadastrar-produto">
-                <input type="button" value="Cadastrar produtos" onclick="showSection('cadastrar-produto')">
-            </form>
-            <form id="form-listar-pedidos">
-                <input type="button" value="Listar Pedidos" onclick="showSection('listar-pedidos')">
-            </form>
+            <a href="javascript:void(0)" onclick="loadSection('listar-produtos')" class="nav-button">Listar Produtos</a>
+            <a href="javascript:void(0)" onclick="loadSection('cadastrar-produto')" class="nav-button">Cadastrar Produto</a>
+            <a href="javascript:void(0)" onclick="loadSection('listar-pedidos')" class="nav-button">Listar Pedidos</a>
         </div>
-
-        <!-- Seções de conteúdo que aparecerão abaixo -->
-        <div id="listar-produtos" class="content-section">
-        <div class="product-list">
-            <div class="product-list-header">
-                <div class="header-item">Código</div>
-                <div class="header-item">Nome</div>
-                <div class="header-item">Preço</div>
-                <div class="header-item">Quantidade</div>
-                <div class="header-item">Descrição</div>
-                <div class="header-item">Imagem</div>
-            </div>
-            {% if produtos %}
-    {% for produto in produtos %}
-        <div class="product-item">
-            <div class="product-column">{{ produto['ID'] }}</div>
-            <div class="product-column">{{ produto['PRODUTO'] }}</div>
-            <div class="product-column">R$ {{ produto['PRECO'] }}</div>
-            <div class="product-column">{{ produto['QUANTIDADE'] }}</div>
-            <div class="product-column">{{ produto['DESCRICAO'] }}</div>
-            <div class="product-column">
-                <img src="data:image/jpeg;base64,{{ produto['IMAGEM'] }}" alt="Doce" class="imagem-doce">
-            </div>
-            <div class="product-column">
-                <a href="{{ url_for('cadastroProduto.editar_produto', produto_id=produto['ID']) }}">Editar</a>
-            </div>
-        </div>
-    {% endfor %}
-{% else %}
-    <p>Nenhum produto encontrado.</p>
-{% endif %}
-        </div>
-    </div>
-
-        <div id="cadastrar-produto" class="content-section">
-            <h2>Cadastro de Produto</h2>
-            <form action="{{url_for('cadastroProduto.adicionar_prod')}}" method="post" enctype="multipart/form-data">
-                <label for= "nome">Nome do Produto:</label><br>
-                <input type="text" id="produto" name="produto" required><br><br>
         
-                <label for="preco">Preço:</label><br>
-                <input type="number" id="preco" name="preco" step="0.01" required><br><br>
         
-                <label for="descricao">Descrição:</label><br>
-                <textarea id="descricao" name="descricao" rows="4" required></textarea><br><br>
-        
-                <label for="quantidade">Quantidade:</label><br>
-                <input type="number" id="quantidade" name="quantidade" required><br><br>
-        
-                <!-- Adicionando o upload de imagem -->
-                <label for="image">Selecione uma imagem:</label><br>
-                <input type="file" name="imagem" required><br><br>
-                <input type="submit" value="Cadastrar">
+        <!-- LISTAR PRODUTOS -->
+<div id="listar-produtos" class="content-section">
+    <h2>Produtos Cadastrados</h2>
+    <div class="product-list">
+            <table class="no-borders">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Imagem</th>
+                        <th>Nome</th>
+                        <th>Preço</th>
+                        <th>Quantidade</th>
+                        <th>Descrição</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+        {% if produtos %}
+            {% for produto in produtos %}
+            <tr>
+                <td>{{ produto['ID'] }}</td>
+                <td><img src="data:image/png;base64,{{ produto['IMAGEM'] }}" alt="Doce" class="imagem-doce"></td>
+                <td>{{ produto['PRODUTO'] }}</td>
+                <td>R$ {{ produto['PRECO'] }}</td>
+                <td>{{ produto['QUANTIDADE'] }}</td>
+                <td class="descricao">{{ produto['DESCRICAO'] }}</td>
+                <td class="acoes">
+                    <a href="{{ url_for('cadastroProduto.editar_produto', produto_id=produto['ID']) }}" class="btn btn-warning">Editar</a>
+                    {% if produto['ATIVO'] == 1 %}
+                    <form action="{{ url_for('cadastroProduto.deletar_produto', id=produto['ID']) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este produto?')">
+                        <button type="submit" class="btn-excluir">Excluir</button>
+                    </form>
+                    {% else %}
+                    <form action="{{ url_for('cadastroProduto.reativar_produto', id=produto['ID']) }}" method="POST">
+                        <button type="submit" class="btn btn-success">Reativar</button>
+                    </form>
+                {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="7">Nenhum produto encontrado.</td>
+        </tr>
+    {% endif %}
+</tbody>
+</table>
+</div>
+</div>
 
-            </form>
-        </div>
 
-        <div id="listar-pedidos" class="content-section">
-            <h2>Lista de Pedidos</h2>
-            <!-- Conteúdo da lista de pedidos -->
-            <!-- Insira o conteúdo da lista de pedidos aqui -->
-        </div>
-    </div>
+<!-- CADASTRAR PRODUTO -->
+<div id="cadastrar-produto" class="content-section">
+    <h2>Cadastro de Produto</h2>
+    <form action="{{ url_for('cadastroProduto.adicionar_prod') }}" method="post" enctype="multipart/form-data">
+        <label for="produto">Nome do Produto:</label><br>
+        <input type="text" id="produto" name="produto" required><br><br>
+        <label for="preco">Preço:</label><br>
+        <input type="number" id="preco" name="preco" step="0.01" required><br><br>
+        <label for="descricao">Descrição:</label><br>
+        <textarea id="descricao" name="descricao" required></textarea><br><br>
+        <label for="quantidade">Quantidade em Estoque:</label><br>
+        <input type="number" id="quantidade" name="quantidade" required><br><br>
+        <label for="imagem">Imagem:</label><br>
+        <input type="file" id="imagem" name="imagem" accept="image/*" required><br><br>
+        <input type="submit" value="Cadastrar Produto">
+    </form>
+</div>
+
+<!-- LISTAR PEDIDOS -->
+<div id="listar-pedidos" class="content-section">
+    <h1>Pedidos Realizados</h1>
+    <table>
+        <thead>
+            <tr>
+            <th>Pedido ID</th>
+            <th>Cliente</th>
+            <th>Data</th>
+            <th>Itens</th>           
+            <th>Forma de Pagamento</th>
+            <th>Total</th>
+            <th>Status</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidos %}
+                <tr>
+                    <td>{{ pedido.id }}</td>
+                    <td>{{ pedido.nome_cliente}}</td>
+                    <td>{{ pedido.order_date.strftime('%d/%m/%Y') }}</td>   
+                    <td>
+                        <ul>
+                            {% for item in pedido.itens %}
+                            <li> <b>{{ item['nome_produto'] }}</b> <br> Quantidade: <b>{{ item['quantidade'] }} </b> <br>Preço: <b>{{ item['preco'] }}</b></li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>{{ pedido.forma_pagamento or 'Não Informada' }}</td>
+                    <td>R$ {{ pedido.total }}</td>
+                    <td>{{ pedido.status }}
+                    
+                        <form action="{{ url_for('pedidos.atualizar_status', pedido_id=pedido.id) }}" method="POST">
+                            {% if pedido.status != 'Concluído' %}
+                                <button type="submit" class="btn btn-success">Marcar como Concluído</button>
+                            {% else %}
+                                <button type="button" class="btn btn-disabled" disabled>Concluído</button>
+                            {% endif %}
+                        </form>                        
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        
+    </table>
+</div>
+
 
     <script>
-        // Função para mostrar a seção ativa
-        function showSection(sectionId) {
-            // Esconder todas as seções
+        function loadSection(sectionId) {
+        
             const sections = document.querySelectorAll('.content-section');
-            sections.forEach(section => section.classList.remove('active'));
-
-            // Mostrar a seção selecionada
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+            
             const activeSection = document.getElementById(sectionId);
-            activeSection.classList.add('active');
+            if (activeSection) {
+                activeSection.style.display = 'block';
+            }
         }
+    
+        // Inicializar a primeira seção como visível
+        document.addEventListener('DOMContentLoaded', function () {
+            loadSection('listar-produtos');  
+        });
     </script>
+    
 </body>
 </html>

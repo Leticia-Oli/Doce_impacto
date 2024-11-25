@@ -139,32 +139,61 @@ def ver_pedido(pedido_id):
 # Parte Administrativa
 @pedidos_blueprint.route('/listar_pedidos')
 def listar_pedidos():
-    cur = mysql.connection.cursor()
-        
-    cur.execute("SELECT id, usuario_id, order_date, total, forma_pagamento FROM PEDIDOS")
-    pedidos = cur.fetchall()
+    try:   
+        cur = mysql.connection.cursor()
+        cur.execute("""
+            SELECT p.id, p.usuario_id, p.order_date, p.total, p.forma_pagamento, p.status, u.nome 
+            FROM PEDIDOS p
+            JOIN USUARIOS u ON p.usuario_id = u.id
+        """)
+        pedidos = cur.fetchall()
 
-    # Consultar os itens de cada pedido
-    lista_pedidos = []
-    for pedido in pedidos:
-        pedido_id = pedido[0]
-        
-        # Buscar itens do pedido
-        cur.execute("SELECT produto_id, quantidade, preco FROM PEDIDOS_ITEMS WHERE pedido_id = %s", (pedido_id,))
-        itens = cur.fetchall()
+        lista_pedidos = []
+        for pedido in pedidos:
+            pedido_id = pedido[0]
+            
+            # Consulta para obter os itens do pedido
+            cur.execute("""
+                SELECT pi.produto_id, pi.quantidade, pi.preco, cp.PRODUTO 
+                FROM PEDIDOS_ITEMS pi
+                JOIN CAD_PRODUTO cp ON pi.produto_id = cp.ID
+                WHERE pi.pedido_id = %s
+            """, (pedido_id,))            
+            itens = cur.fetchall()
 
-        lista_pedidos.append({
-            'id': pedido[0],
-            'usuario_id': pedido[1],
-            'order_date': pedido[2],
-            'total': pedido[3],
-            'forma_pagamento': pedido[4],
-            'itens': [{'produto_id': item[0], 'quantidade': item[1], 'preco': item[2]} for item in itens]
-        })
+            # Adiciona os dados do pedido e seus itens à lista
+            lista_pedidos.append({
+                'id': pedido[0],
+                'usuario_id': pedido[1],
+                'order_date': pedido[2],
+                'total': pedido[3],
+                'forma_pagamento': pedido[4],
+                'status': pedido[5],
+                'nome_cliente':pedido[6],
+                'itens': [{'produto_id': item[0], 'quantidade': item[1], 'preco': item[2], 'nome_produto': item[3]} for item in itens]
+            })
 
-    # Fechar cursor
-    cur.close()
+        cur.close()
+        return lista_pedidos
+    
+    except Exception as e:
+        print("Erro ao listar pedidos:", str(e))
+        return "Erro ao listar pedidos", 500
 
-    # Renderizar template com os dados de pedidos
-    return render_template('Pedidos_admin.html', pedidos=lista_pedidos)
+@pedidos_blueprint.route('/atualizar_status/<int:pedido_id>', methods=['POST'])
+def atualizar_status(pedido_id):
+    try:
+        cur = mysql.connection.cursor()
 
+        # Atualizando o status do pedido para "Concluído"
+        cur.execute("UPDATE PEDIDOS SET status = 'Concluído' WHERE id = %s", (pedido_id,))
+        mysql.connection.commit()
+
+        cur.close()
+
+        # Redireciona de volta para a lista de pedidos
+        return redirect(url_for('pedidos.listar_pedidos'))
+
+    except Exception as e:
+        print(f"Erro ao atualizar status do pedido: {e}")
+        return "Erro ao atualizar status", 500

@@ -32,18 +32,11 @@
                 <div class = "produto">
                     <div class = "produto-content">
                         <div class = "produto-img">
-                            <img src = "data:image/jpeg;base64,{{produto[5]}}" alt = "Doce" class="imagem-doce">
+                            <img src = "data:image/png;base64,{{produto[5]}}" alt = "Doce" class="imagem-doce">
                         </div>
                     </div>
 
                     <div class = "produto-info">
-                        <div class = "produto-btne">
-                            <form action="{{ url_for('cadastroProduto.add_to_cart', produto_id=produto[0]) }}" method="POST">
-                                <button type = "submit" class = "btn-cart" onclick="enviarAoCarrinho({{produto[0]}}, {{produto[2]}})"> adicione ao carrinho
-                                    <span><i class='bx bxs-cart'></i></span>
-                                </button>
-                            </form>
-                        </div>
                         <div class = "produto-info-top">
                             <h2 class = "sm-title">{{produto[1]}}</h2>
                             <div class = "avaliacao">
@@ -54,9 +47,16 @@
                                 <span><i class='bx bxs-star'></i></span>
                             </div>
                         </div>
-                        <a href = "#" class = "produto-descricao">{{produto[3]}}</a>
+                        <p class = "produto-descricao">{{produto[3]}}</p>
                         <p class = "produto-preco">R$ {{produto[2]}}</p><br>
                         <p class = "produto-preco">Estoque: {{produto[4]}}</p>
+                        <div class = "produto-btne">
+                            <form action="{{ url_for('cadastroProduto.add_to_cart', produto_id=produto[0]) }}" method="POST">
+                                <button type = "submit" class = "btn-cart" onclick="enviarAoCarrinho({{produto[0]}}, {{produto[2]}})"> adicione ao carrinho
+                                    <span><i class='bx bxs-cart'></i></span>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <!-- fim produto 1 -->
