@@ -57,7 +57,6 @@ def listar_produtos_admin():
         produtos = cur.fetchall()
         cur.close()
 
-        print("Produtos retornados do banco:", produtos, flush=True ) # Verifique os dados aqui
         produtos_com_imagem = []
         for produto in produtos:
             imagem_b64 = base64.b64encode(produto[5] or b'').decode('utf-8') if produto[5] else 'fallback-image.png'
@@ -67,12 +66,11 @@ def listar_produtos_admin():
             "preco": produto[2],
             "descricao": produto[3],
             "quantidade": produto[4],
-            "imagem": imagem_b64  
+            "imagem": imagem_b64,
+            "ativo": produto[6]  
         })
 
-            print("Produtos enviados ao template:", produtos_com_imagem)  # Verifique aqui também
-
-        return render_template('areaADM.html', produtos=produtos_com_imagem)
+        return produtos_com_imagem
 
         
 

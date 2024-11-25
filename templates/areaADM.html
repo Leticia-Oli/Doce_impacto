@@ -39,28 +39,29 @@
                 </thead>
                 <tbody>
         {% if produtos %}
-            {% for produto in produtos %}
-            <tr>
-                <td>{{ produto['ID'] }}</td>
-                <td><img src="data:image/png;base64,{{ produto['IMAGEM'] }}" alt="Doce" class="imagem-doce"></td>
-                <td>{{ produto['PRODUTO'] }}</td>
-                <td>R$ {{ produto['PRECO'] }}</td>
-                <td>{{ produto['QUANTIDADE'] }}</td>
-                <td class="descricao">{{ produto['DESCRICAO'] }}</td>
-                <td class="acoes">
-                    <a href="{{ url_for('cadastroProduto.editar_produto', produto_id=produto['ID']) }}" class="btn btn-warning">Editar</a>
-                    {% if produto['ATIVO'] == 1 %}
-                    <form action="{{ url_for('cadastroProduto.deletar_produto', id=produto['ID']) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este produto?')">
+        {% for produto in produtos %}
+        <tr>
+            <td>{{ produto['id'] }}</td> 
+            <td><img src="data:image/png;base64,{{ produto['imagem'] }}" alt="Doce" class="imagem-doce"></td> 
+            <td>{{ produto['produto'] }}</td> 
+            <td>R$ {{ produto['preco'] }}</td> 
+            <td>{{ produto['quantidade'] }}</td> 
+            <td class="descricao">{{ produto['descricao'] }}</td> 
+            <td class="acoes">
+                <a href="{{ url_for('cadastroProduto.editar_produto', produto_id=produto['id']) }}" class="btn btn-warning">Editar</a>
+                {% if produto['ativo'] == 1 %}
+                    <form action="{{ url_for('cadastroProduto.deletar_produto', id=produto['id']) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este produto?')">
                         <button type="submit" class="btn-excluir">Excluir</button>
                     </form>
-                    {% else %}
-                    <form action="{{ url_for('cadastroProduto.reativar_produto', id=produto['ID']) }}" method="POST">
+                {% else %}
+                    <form action="{{ url_for('cadastroProduto.reativar_produto', id=produto['id']) }}" method="POST">
                         <button type="submit" class="btn btn-success">Reativar</button>
                     </form>
                 {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
+            </td>
+        </tr>
+    {% endfor %}
+    
     {% else %}
         <tr>
             <td colspan="7">Nenhum produto encontrado.</td>

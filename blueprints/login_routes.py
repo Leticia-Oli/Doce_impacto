@@ -2,6 +2,7 @@ from flask import Blueprint, flash, request, jsonify, render_template, redirect,
 from config import db
 import base64
 from blueprints.pedidos import listar_pedidos
+from blueprints.cadastroProduto import listar_produtos_admin
 
 login_blueprint = Blueprint('login', __name__)
 
@@ -55,16 +56,9 @@ def login1():
 
 @login_blueprint.route('/admin_cad', methods=['GET'])
 def admin_cad():
-    cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM CAD_PRODUTO")
-    produtos = cursor.fetchall()
-
-    for produto in produtos:
-        if produto['IMAGEM']:
-            produto['IMAGEM'] = base64.b64encode(produto['IMAGEM']).decode('utf-8')        
-
+       
+    produtos= listar_produtos_admin()
     pedidos = listar_pedidos()
-
 
     return render_template('areaADM.html', produtos=produtos, pedidos=pedidos)  
 
