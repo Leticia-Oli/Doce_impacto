@@ -7,9 +7,8 @@ body {
     box-sizing: border-box;
 }
 
-/* Ajuste para evitar que o conteúdo da página fique escondido atrás da navbar */
 main {
-    margin-top: 80px; /* Deve ser igual ou maior que a altura da navbar */
+    margin-top: 80px; 
 }
 
 .navbar {
@@ -20,11 +19,10 @@ main {
     align-items: center;
     position: fixed;
     top: 0;
-    left: 0; /* Adicionado para garantir alinhamento à esquerda */
-    right: 0; /* Adicionado para garantir alinhamento à direita */
+    left: 0; 
+    right: 0; 
     width: 100%;
-    z-index: 1000; /* Garante que a navbar fique acima de outros elementos */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adiciona uma leve sombra para destaque */
+    z-index: 1000; 
 }
 
 .navbar a {
@@ -70,4 +68,10 @@ main {
 .navbar-hidden {
     transform: translateY(-100%);
     transition: transform 0.3s ease;
+}
+
+.search-box {
+    display: none;
+    margin-top: 10px;
+    text-align: center;
 }

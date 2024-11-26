@@ -5,21 +5,18 @@
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/style-carrinho.css') }}" type="text/css">
     <link rel="icon" href="{{ url_for('static', filename='images/cupcake.png') }}" type="image/png">
-    {% block title %}Carinho de Compras | Doce Impacto{% endblock %}
+    <title>Carinho de Compras | Doce Impacto</title>
   </head>
 <body>
-
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+      {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+  {% endif %}
+  {% endwith %}
     <h1>Seu Carrinho de Compras</h1>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-
+ 
     <div class="container-carrinho">
       <div class="progress-bar">
           <div class="step active">1 Carrinho</div>
@@ -65,7 +62,6 @@
         <form action="{{ url_for('pedidos.resumo_pedido') }}" method="GET">
           <button type="submit" class="btn-finalizar">Finalizar Comprar</button>
         </form>
-
         <form action="{{ url_for('cadastroProduto.listar_produto')}}" method="GET">
           <button type="submit" class="btn-continuar">Continuar Comprando</button>
         </form>

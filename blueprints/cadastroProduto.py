@@ -11,9 +11,6 @@ cadastroProduto_blueprint = Blueprint('cadastroProduto', __name__)
 def adicionar_prod():
     if request.method == 'POST':
         produtos = request.form
-
-       # print(request.files)  # Verifique se a chave 'imagem' está presente
-
         imagem = request.files.get('imagem')
         
         imagem_data = imagem.read()
@@ -89,7 +86,7 @@ def editar_produto(produto_id):
         return render_template('editar_produto.html', produto=produto)
 
     elif request.method == 'POST':
-            # Atualizar o produto com os novos dados do formulário
+            
             nome = request.form['produto']
             preco = request.form['preco']
             descricao = request.form['descricao']
@@ -186,7 +183,7 @@ def add_to_cart(produto_id):
     mysql.connection.commit()
     cur.close()
 
-    flash(f'Produto foi adicionado ao carrinho com sucesso!')
+    flash(f'Produto foi adicionado ao carrinho com sucesso!', 'success')
     return redirect(url_for('cadastroProduto.listar_produto'))
 
 @cadastroProduto_blueprint.route('/ver_carrinho', methods=['GET'])
@@ -261,3 +258,15 @@ def atualizar_quantidade():
     cur.close()
 
     return jsonify({'success': True})
+
+@cadastroProduto_blueprint.route('/buscar_produto', methods=['GET'])
+def buscar_produto():
+    query = request.args.get('query')  
+    if query:
+        
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM CAD_PRODUTO WHERE produto LIKE %s", ('%' + query + '%',))
+        produtos = cur.fetchall()
+        cur.close()
+        return render_template('produto.html', produtos=produtos)
+    return render_template('produto.html', produtos=[])

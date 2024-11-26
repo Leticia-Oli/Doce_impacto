@@ -1,29 +1,107 @@
 {% extends 'index.html' %}
+
+{% block head %}
+    <title>Detalhes do Pedido | Doce Impacto</title>
+    <style>
+        /* Estilo para a página de Detalhes do Pedido */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #F07BAF; /* Rosa */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #F07BAF;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: #555;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        table thead {
+            background-color: #F07BAF; /* Rosa */
+            color: white;
+        }
+
+        table tbody tr:hover {
+            background-color: #ffe4e6; /* Rosa claro para destaque */
+        }
+
+        a {
+            display: inline-block;
+            background-color: #F07BAF; /* Rosa */
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 40px;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #c66b97; /* Tom mais escuro de rosa */
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
+<div class="container">
+    <h1>Detalhes do Pedido</h1>
 
-<h1>Detalhes do Pedido</h1>
+    <h2>Pedido #{{ pedido[0] }}</h2>
+    <p>Data: {{ pedido[1] }}</p>
+    <p>Total: R$ {{ pedido[2] }}</p>
 
-<h2>Pedido #{{ pedido[0] }}</h2>
-<p>Data: {{ pedido[1] }}</p>
-<p>Total: R$ {{ pedido[2] }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Quantidade</th>
+                <th>Preço Unitário</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in itens %}
+                <tr>
+                    <td>{{ item[1] }}</td>
+                    <td>{{ item[2] }}</td>
+                    <td>R$ {{ item[3] }}</td>
+                    <td>R$ {{ item[2] * item[3] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-<table>
-    <tr>
-        <th>Produto</th>
-        <th>Quantidade</th>
-        <th>Preço Unitário</th>
-        <th>Total</th>
-    </tr>
-    {% for item in itens %}
-    <tr>
-        <td>{{ item[1] }}</td>
-        <td>{{ item[2] }}</td>
-        <td>R$ {{ item[3] }}</td>
-        <td>R$ {{ item[2] * item[3] }}</td>
-    </tr>
-    {% endfor %}
-</table>
-
-<a href="{{ url_for('cadastroProduto.listar_produto') }}">Continuar Comprando</a>
-
+    <a href="{{ url_for('cadastroProduto.listar_produto') }}">Continuar Comprando</a>
+</div>
 {% endblock %}

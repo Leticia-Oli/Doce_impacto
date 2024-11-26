@@ -12,17 +12,14 @@
 <body>
     <main>
 {% block content %}
-    {% with messages = get_flashed_messages() %}
-     {% if messages %}
-      <div id="flash-message" class="flash-bottom">
-        {% for message in messages %}
-          <p>{{ message }}</p>
+     <div class = "produtos">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
         {% endfor %}
-      </div>
-     {% endif %}
+    {% endif %}
     {% endwith %}
-
-    <div class = "produtos">
         <div class = "container">
             <h1 class = "lg-title">Nossos produtos deliciosos</h1>
             <p class = "text-light">Explore nosso código de sabores! Cada produto é compilado com ingredientes de alta performance para satisfazer seu paladar em um loop de prazer. Prepare-se para uma sobremesa que vai fazer o seu sistema dar um refresh em cada mordida. Não deixe o erro 404 aparecer no seu carrinho: adicione agora e experimente a doçura que foi feita para você!</p>
@@ -48,7 +45,7 @@
                             </div>
                         </div>
                         <p class = "produto-descricao">{{produto[3]}}</p>
-                        <p class = "produto-preco">R$ {{produto[2]}}</p><br>
+                        <p class = "produto-preco">R$ {{produto[2]}}</p>
                         <p class = "produto-preco">Estoque: {{produto[4]}}</p>
                         <div class = "produto-btne">
                             <form action="{{ url_for('cadastroProduto.add_to_cart', produto_id=produto[0]) }}" method="POST">
@@ -59,7 +56,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- fim produto 1 -->
+                {% else %}
+                <p>Nenhum produto encontrado.</p>
                 {% endfor %}
             </div>
         </div>
@@ -92,14 +90,13 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-        const flashMessage = document.getElementById('flash-message');
-        if (flashMessage) {
-            flashMessage.classList.add('show'); // Exibe a mensagem
-            setTimeout(() => {
-                flashMessage.classList.remove('show'); // Oculta a mensagem após 3 segundos
-            }, 3000);
-        }
-    });
+        ocument.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.alert'); // Seleciona todas as mensagens de alerta
 
+        alerts.forEach(function(alert) {
+            setTimeout(function() {
+                alert.classList.add('hide'); 
+            }, 3000); 
+        });
+    });
 </script>

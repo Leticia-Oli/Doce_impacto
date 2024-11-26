@@ -1,0 +1,77 @@
+{% extends 'index.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/profile.css') }}">
+    <title>Editar Conta | Doce Impacto</title>
+{% endblock %}
+
+{% block content %}
+<div class="edit-account-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="edit-account-header">
+        <h1>Editar Conta</h1>
+    </div>
+    <a href="{{ url_for('cadastro.minha_conta') }}" class="btn btn-secondary">Voltar</a>
+    <form method="POST">
+        <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" class="form-control" id="nome" name="nome" value="{{ usuario[0] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ usuario[1] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="telefone">Telefone</label>
+            <input type="text" class="form-control" id="telefone" name="telefone" value="{{ usuario[2] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="sexo">Sexo</label>
+            <select id="sexo" name="sexo">
+                <option value="M" {% if usuario[3] == 'M' %}selected{% endif %}>Masculino</option>
+                <option value="F" {% if usuario[3] == 'F' %}selected{% endif %}>Feminino</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="data_nasc">Data de Nascimento</label>
+            <input type="date" class="form-control" id="data_nasc" name="data_nasc" value="{{ usuario[4] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="curso_cargo">Curso/Cargo</label>
+            <input type="text" class="form-control" id="curso_cargo" name="curso_cargo" value="{{ usuario[5] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="turno">Turno</label>
+            <select id="turno" name="turno">
+                <option value="M" {% if usuario[6] == 'M' %}selected{% endif %}>Manhã</option>
+                <option value="T" {% if usuario[6] == 'T' %}selected{% endif %}>Tarde</option>
+                <option value="N" {% if usuario[6] == 'N' %}selected{% endif %}>Noite</option>
+            </select>
+            <div class="form-actions">
+                <button type="submit" class="btn">Salvar Alterações</button>
+            </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('telefone').addEventListener('input', function (e) {
+        let telefone = e.target.value.replace(/\D/g, ""); 
+        telefone = telefone.replace(/^(\d{2})(\d)/g, "($1)$2"); 
+        telefone = telefone.replace(/(\d{5})(\d)/, "$1-$2"); 
+        e.target.value = telefone.substring(0, 14); 
+    });
+    
+    document.querySelector('form').addEventListener('submit', function (e) {
+    let telefoneInput = document.getElementById('telefone');
+    let telefoneLimpo = telefoneInput.value.replace(/\D/g, ''); // Remove formatação
+    telefoneInput.value = telefoneLimpo; // Atualiza o valor do input com o número limpo
+});
+    </script>
+
+{% endblock %}

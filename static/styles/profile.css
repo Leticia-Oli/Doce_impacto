@@ -1,12 +1,18 @@
+/* Global */
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 :root{
     --primary-color: #ff226f;
     --primary-color-dark: #fe6769;
     --text-dark: #333333;
     --white: #ffffff;
+    --background-light: #faf3f5;
+    --background-dark: #f7e9e3;
 }
+
+/* General body styling */
 body {
-    background-color: #f7e9e3;
+    background-color: var(--background-dark);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,6 +20,8 @@ body {
     padding: 20px;
     margin: 0;
 }
+
+/* Container Styles */
 .container {
     width: 95%;
     max-width: 1200px;
@@ -21,11 +29,12 @@ body {
     border: 2px solid #D3C0E8;
     padding: 30px;
     border-radius: 8px;
-    background-color: #FAF3F5;
+    background-color: var(--background-light);
     margin: 0 auto;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
 }
 
+/* Profile Section */
 .profile-header h2 {
     font-size: 24px;
     font-weight: bold;
@@ -40,23 +49,22 @@ body {
     padding-left: 30px;
 }
 
-.info-item {
+.profile-info .info-item {
     justify-content: space-between; 
     align-items: center;
     padding: 10px 0;
     font-size: 20px;
-    
 }
 
-.info-item strong {
+.profile-info .info-item strong {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
 }
 
-.info-item span {
+.profile-info .info-item span {
     font-size: 16px;
-    color: #333333;
+    color: var(--text-dark);
 }
 
 .edit-button {
@@ -66,7 +74,7 @@ body {
 
 .edit-button a {
     padding: 10px 20px;
-    background-color: #ff226f;
+    background-color: var(--primary-color);
     color: rgb(224, 116, 116);
     text-decoration: none;
     border-radius: 5px;
@@ -74,7 +82,7 @@ body {
 }
 
 .edit-button a:hover {
-    background-color: #fe6769;
+    background-color: var(--primary-color-dark);
 }
 
 .actions {
@@ -88,7 +96,7 @@ body {
 .actions .btn {
     padding: 10px 20px;
     text-decoration: none;
-    color: #ffffff;
+    color: var(--white);
     background-color: var(--primary-color);
     border-radius: 5px;
     transition: background-color 0.3s ease;
@@ -104,4 +112,92 @@ body {
 
 .actions .btn-danger:hover {
     background-color: #c9302c;
+}
+
+/* EDITAR CONTA */
+.edit-account-container {
+    width: 85%;
+    max-width: 1600px;
+    min-width: 600px;
+    border: 2px solid #D3C0E8;
+    padding: 30px;
+    border-radius: 8px;
+    background-color: var(--background-light);
+    margin: 0 auto;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.edit-account-header h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group label {
+    font-size: 1rem;
+    color: var(--text-dark);
+    font-weight: bold;
+}
+
+.form-group input, .form-group select {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus, .form-group select:focus {
+    border-color: var(--primary-color);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.form-actions .btn {
+    padding: 12px 24px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+    border: none;
+}
+
+.form-actions .btn:hover {
+    background-color: var(--primary-color-dark);
+}
+
+* Mensagens de erro ou sucesso */
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.alert-danger {
+    background-color: #f8d7da; /* Fundo vermelho claro */
+    color: #721c24; /* Texto vermelho */
+    border: 1px solid #f5c6cb;
+}
+
+.alert-success {
+    background-color: #d4edda; /* Fundo verde claro */
+    color: #155724; /* Texto verde */
+    border: 1px solid #c3e6cb;
 }

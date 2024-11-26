@@ -25,7 +25,14 @@
                     <a href="{{ url_for('login.login1') }}">Login</a>
                 {% endif %}
                 
-                <a href="{{ url_for('login.home') }}"><img src="{{url_for('static', filename='images/lupa.png')}}" alt="Buscar"></a>
+                <a href="javascript:void(0);" id="search-icon">
+                    <img src="{{url_for('static', filename='images/lupa.png')}}" alt="Buscar">
+                </a>
+                <div id="search-box" class="search-box" style="display:none;">
+                    <input type="text" id="search-input" placeholder="Digite o nome do produto">
+                    <button type="button" id="submit-search" class="btn-search-submit">Buscar</button>
+                </div>
+
             </div>
         </nav>
     </header>
@@ -54,4 +61,15 @@
         }
         lastScroll = currentScroll;
     });
+    document.getElementById("search-icon").addEventListener("click", function() {
+    document.getElementById("search-box").style.display = "block"; // Exibe a caixa de busca
+});
+
+document.getElementById("submit-search").addEventListener("click", function() {
+    let searchValue = document.getElementById("search-input").value;
+    if (searchValue) {
+        window.location.href = "/buscar_produto?query=" + encodeURIComponent(searchValue); // Envia o valor para a URL de busca
+    }
+});
+
 </script>

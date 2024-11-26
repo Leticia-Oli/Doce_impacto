@@ -42,3 +42,23 @@ ul {
 li {
     padding: 5px 0;
 }
+
+/* Mensagens de erro ou sucesso */
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.alert-danger {
+    background-color: #f8d7da; /* Fundo vermelho claro */
+    color: #721c24; /* Texto vermelho */
+    border: 1px solid #f5c6cb;
+}
+
+.alert-success {
+    background-color: #d4edda; /* Fundo verde claro */
+    color: #155724; /* Texto verde */
+    border: 1px solid #c3e6cb;
+}
