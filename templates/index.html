@@ -16,7 +16,7 @@
             <div class="menu">
                 <a href="{{ url_for('cadastroProduto.listar_produto')}}">Produtos</a>
                 <a href="{{ url_for('feedback.feedbacks') }}">FeedBacks</a> 
-                <a href="{{ url_for('login.home') }}">Contato</a>
+                <a href="{{ url_for('cadastro.enviar_mensagem') }}">Contato</a>
                 <a href="{{ url_for('cadastroProduto.ver_carrinho') }}"><img src="{{url_for('static', filename='images/carrinho.png')}}"alt="Carro"> Carrinho</a>
     
                 {% if session.get('usuario_logado') %}
@@ -26,13 +26,16 @@
                 {% endif %}
                 
                 <a href="javascript:void(0);" id="search-icon">
-                    <img src="{{url_for('static', filename='images/lupa.png')}}" alt="Buscar">
+                    <img src="{{ url_for('static', filename='images/lupa.png') }}" alt="Buscar">
                 </a>
                 <div id="search-box" class="search-box" style="display:none;">
-                    <input type="text" id="search-input" placeholder="Digite o nome do produto">
-                    <button type="button" id="submit-search" class="btn-search-submit">Buscar</button>
+                    <header class="search">
+                        <form action="{{ url_for('cadastroProduto.buscar_produto') }}" method="GET" id="search-form">
+                            <input type="text" id="search-input" name="query" placeholder="Digite o nome do produto" onkeypress="handleEnter(event)">
+                            <i class="bx bx-search-alt-2" onclick="submitSearch()"></i> <!-- Ícone de busca -->
+                        </form>
+                    </header>
                 </div>
-
             </div>
         </nav>
     </header>
@@ -48,28 +51,38 @@
 
 <script>
     let lastScroll = 0;
-    const navbar = document.querySelector('.navbar'); // Substitua '.navbar' pelo seletor da sua barra de navegação
+    const navbar = document.querySelector('.navbar'); 
 
     window.addEventListener('scroll', () => {
         const currentScroll = window.pageYOffset;
         if (currentScroll > lastScroll) {
-            // Scroll para baixo - esconde a barra
+           
             navbar.classList.add('navbar-hidden');
         } else {
-            // Scroll para cima - mostra a barra
+            
             navbar.classList.remove('navbar-hidden');
         }
         lastScroll = currentScroll;
     });
-    document.getElementById("search-icon").addEventListener("click", function() {
-    document.getElementById("search-box").style.display = "block"; // Exibe a caixa de busca
-});
-
-document.getElementById("submit-search").addEventListener("click", function() {
-    let searchValue = document.getElementById("search-input").value;
-    if (searchValue) {
-        window.location.href = "/buscar_produto?query=" + encodeURIComponent(searchValue); // Envia o valor para a URL de busca
+    document.getElementById('search-icon').onclick = function() {
+    var searchBox = document.getElementById('search-box');
+    if (searchBox.style.display === 'none' || searchBox.style.display === '') {
+        searchBox.style.display = 'flex'; 
+    } else {
+        searchBox.style.display = 'none'; 
     }
-});
-
+}
+function handleEnter(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();  
+        submitSearch();          
+    }
+}
+function submitSearch() {
+    const searchInput = document.getElementById('search-input').value;
+    if (searchInput) {
+        
+        document.getElementById('search-form').submit();
+    }
+}
 </script>

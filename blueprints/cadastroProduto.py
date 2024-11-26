@@ -263,7 +263,6 @@ def atualizar_quantidade():
 def buscar_produto():
     query = request.args.get('query')  
     if query:
-        
         cur = mysql.connection.cursor()
         cur.execute("SELECT * FROM CAD_PRODUTO WHERE produto LIKE %s", ('%' + query + '%',))
         produtos = cur.fetchall()

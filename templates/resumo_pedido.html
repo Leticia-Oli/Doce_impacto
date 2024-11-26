@@ -14,11 +14,17 @@
 <h1>Resumo do Pedido</h1>
 
 <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
     <div class="progress-bar">
         <div class="step">1 Carrinho</div>
-        <div class="step">2 Identificação</div>
-        <div class="step active">3 Pagamento</div>
-        <div class="step">4 Finalizar Pedido</div>
+        <div class="step active">2 Pagamento</div>
+        <div class="step">3 Finalizar Pedido</div>
     </div>
 
     <div class="conteudo-container">
@@ -108,6 +114,15 @@
             });
         });
     });
+
+    document.addEventListener("DOMContentLoaded", function () {
+                const alerts = document.querySelectorAll('.alert');
+                alerts.forEach(alert => {
+                    setTimeout(() => {
+                        alert.style.display = 'none';
+                    }, 5000);
+                });
+            });
 </script>
 {% endblock %}
 </main>

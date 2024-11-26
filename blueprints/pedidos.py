@@ -106,6 +106,12 @@ def finalizar_compra():
             WHERE id = %s
         """, (quantidade, produto_id))
 
+        cur.execute("""
+            UPDATE CAD_PRODUTO
+            SET ativo = 0
+            WHERE id = %s AND quantidade = 0
+        """, (produto_id,))
+
 
     # Limpar o carrinho do usuário
     cur.execute("DELETE FROM CARRINHO WHERE usuario_id = %s", (usuario_id,))

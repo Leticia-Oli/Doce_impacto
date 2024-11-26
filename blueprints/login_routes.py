@@ -3,6 +3,7 @@ from config import db
 import base64
 from blueprints.pedidos import listar_pedidos
 from blueprints.cadastroProduto import listar_produtos_admin
+from blueprints.cadastro_routes import exibir_mensagens
 
 login_blueprint = Blueprint('login', __name__)
 
@@ -59,8 +60,9 @@ def admin_cad():
        
     produtos= listar_produtos_admin()
     pedidos = listar_pedidos()
+    mensagens = exibir_mensagens()
 
-    return render_template('areaADM.html', produtos=produtos, pedidos=pedidos)  
+    return render_template('areaADM.html', produtos=produtos, pedidos=pedidos, mensagens=mensagens)  
 
 @login_blueprint.route('/logout')
 def logout():

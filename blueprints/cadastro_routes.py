@@ -112,3 +112,39 @@ def editar_dados():
         return redirect(url_for('cadastro.minha_conta'))  
 
     return render_template('editar_conta.html', usuario=usuario)
+
+@cadastro_blueprint.route('/contato', methods=['GET', 'POST'])
+def enviar_mensagem():
+    if request.method == 'POST':
+        nome = request.form.get('nome')
+        email = request.form.get('email')
+        mensagem = request.form.get('mensagem')
+        
+        if not (nome and email and mensagem):
+            flash('Por favor, preencha todos os campos.', 'danger')
+            return render_template('contato.html')
+
+    try:
+        cur = mysql.connection.cursor()
+        query = "INSERT INTO MSG_CONTATO (nome, email, mensagem) VALUES (%s, %s, %s)"
+        valores = (nome, email, mensagem)
+        cur.execute(query, valores)
+        mysql.connection.commit()
+        cur.close()
+
+        flash('Mensagem enviada com sucesso!', 'success')
+        return redirect(url_for('cadastro.enviar_mensagem'))
+        
+    except Exception as e:
+            flash('')
+            return render_template('contato.html')
+
+
+@cadastro_blueprint.route('/exibir_mensagens', methods=['GET'])
+def exibir_mensagens():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT id, nome, email, mensagem, data_envio FROM MSG_CONTATO ORDER BY data_envio DESC")
+    mensagens = cur.fetchall()
+    cur.close()
+    
+    return mensagens

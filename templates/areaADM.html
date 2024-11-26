@@ -18,6 +18,7 @@
             <a href="javascript:void(0)" onclick="loadSection('listar-produtos')" class="nav-button">Listar Produtos</a>
             <a href="javascript:void(0)" onclick="loadSection('cadastrar-produto')" class="nav-button">Cadastrar Produto</a>
             <a href="javascript:void(0)" onclick="loadSection('listar-pedidos')" class="nav-button">Listar Pedidos</a>
+            <a href="javascript:void(0)" onclick="loadSection('exibir-mensagens')" class="nav-button">Exibir Mensagens</a>
         </div>
         
         
@@ -134,15 +135,44 @@
                     </td>
                 </tr>
             {% endfor %}
+        </tbody>  
+    </table>
+</div>
+<!-- EXIBIR MENSAGENS -->
+<div id="exibir-mensagens" class="content-section">
+    <h2>Mensagens Recebidas</h2>
+    <table class="no-borders">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Mensagem</th>
+                <th>Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if mensagens %}
+            {% for mensagem in mensagens %}
+                <tr>
+                    <td>{{ mensagem[0] }}</td>
+                    <td>{{ mensagem[1] }}</td>
+                    <td>{{ mensagem[2] }}</td>
+                    <td>{{ mensagem[3] }}</td>
+                    <td>{{ mensagem[4] }}</td>
+                </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="5">Nenhuma mensagem encontrada.</td>
+            </tr>
+            {% endif %}
         </tbody>
-        
     </table>
 </div>
 
-
     <script>
         function loadSection(sectionId) {
-        
             const sections = document.querySelectorAll('.content-section');
             sections.forEach(section => {
                 section.style.display = 'none';
@@ -154,7 +184,6 @@
             }
         }
     
-        // Inicializar a primeira seção como visível
         document.addEventListener('DOMContentLoaded', function () {
             loadSection('listar-produtos');  
         });

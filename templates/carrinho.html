@@ -20,9 +20,8 @@
     <div class="container-carrinho">
       <div class="progress-bar">
           <div class="step active">1 Carrinho</div>
-          <div class="step">2 Identificação</div>
-          <div class="step">3 Pagamento</div>
-          <div class="step">4 Finalizar Pedido</div>
+          <div class="step">2 Pagamento</div>
+          <div class="step">3 Finalizar Pedido</div>
       </div>
 
       <h2 class="title-carrinho">Carrinho de compras</h2>
@@ -126,6 +125,14 @@ function atualizarQuantidade(itemId, delta) {
     })
     .catch(error => console.error('Erro:', error));
 }
+    document.addEventListener("DOMContentLoaded", function () {
+                    const alerts = document.querySelectorAll('.alert');
+                    alerts.forEach(alert => {
+                        setTimeout(() => {
+                            alert.style.display = 'none';
+                        }, 5000);
+                    });
+                });
 </script>
 
 </body>

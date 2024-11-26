@@ -7,7 +7,13 @@
 
 {% block content %}
 <div class="container">
-  
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
     <div class="profile-header">
         <h1>Minha Conta</h1>
 
@@ -50,4 +56,14 @@
             </div>
    </div>
   </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        });
+    });
+</script>
 {% endblock %}
