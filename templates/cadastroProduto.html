@@ -29,8 +29,8 @@
                 <label for="descricao">Descrição:</label><br>
                 <textarea id="descricao" name="descricao" rows="4" required></textarea><br><br>
         
-                <label for="categoria">Categoria:</label><br>
-                <input type="text" id="categoria" name="categoria" required><br><br>
+                <label for="categoria">Quantidade:</label><br>
+                <input type="number" id="categoria" name="categoria" required><br><br>
         
                 <!-- Adicionando o upload de imagem -->
                 <label for="image">Selecione uma imagem:</label><br>
@@ -39,6 +39,9 @@
 
             </form>
         </div>
+        <form action="{{url_for('pedidos.listar_pedidos')}}" method="GET">
+            <input type="submit" value="Lista de Pedidos">
+        </form>
         </body>
         </html>
         

@@ -10,8 +10,8 @@ app.secret_key = 'doces'
 db = mysql.connector.connect(
     host="localhost",  
     user="root",
-    password="guararema02",
-    database="sitededoces"
+    password="impacta1",
+    database="DOCE_IMPACTO"
 )
 
 
@@ -22,7 +22,7 @@ app.config['JSON_SORT_KEYS'] = False
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'guararema02'
-app.config['MYSQL_DB'] = 'sitededoces'
+app.config['MYSQL_PASSWORD'] = 'impacta1'
+app.config['MYSQL_DB'] = 'DOCE_IMPACTO'
 
 mysql = MySQL(app)
